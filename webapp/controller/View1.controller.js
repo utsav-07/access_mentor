@@ -482,13 +482,19 @@ sap.ui.define([
                 }
             }
 
-            // Filter out any undefined/null entries just in case
-            aAvailableRoles = aAvailableRoles.filter(Boolean);
+            // Deduplicate roles by Roles or name property
+            const seen = new Set();
+            const aUniqueRoles = aAvailableRoles.filter(role => {
+                const key = role.Roles || role.name;
+                if (seen.has(key)) {
+                    return false;
+                }
+                seen.add(key);
+                return true;
+            });
 
-            console.log(aAvailableRoles);
-
-            // Update the model with roles and count
-            oModel.setProperty("/_allAvailableRoles", aAvailableRoles);
+            // Update the model with unique roles and count
+            oModel.setProperty("/_allAvailableRoles", aUniqueRoles);
             this.onRoleTypeCheckboxSelect();
             oModel.setProperty("/selectedTCodesCount", aSelectedItems.length);
             oModel.setProperty("/roleBusy", false);
@@ -514,10 +520,11 @@ sap.ui.define([
                 urlParameters: { "$filter": sFilter },
                 success: function (data) {
                     // Expecting data.results to be array of { Tcode, TcodeDesc }
-                    var aTcodes = (data.results || []).map(function (item) {
-                        return { code: item.Tcode, description: item.RoleDesc };
-                    });
-                    oModel.setProperty("/selectedRoleTcodes", aTcodes);
+                    const validTcodes = data.results.map(item => ({
+                        code: item.Tcode,
+                        description: item.RoleDesc ? item.RoleDesc : 'No description available'
+                    }));
+                    oModel.setProperty("/selectedRoleTcodes", validTcodes);
                     oModel.setProperty("/infoCenterBusy", false);
                     oVBox.removeStyleClass("busyTop");
                 },
@@ -532,33 +539,33 @@ sap.ui.define([
 
         //this function not required now as we will use button to check SOD
         onRoleSelectionChange: function (oEvent) {
-            var oList = oEvent.getSource();
+            var oList = this.byId("roleList");
             var aSelectedItems = oList.getSelectedItems();
             var oModel = this.getView().getModel();
             var aValidSelectedItems = [];
+            var aSelectedRoles = [];
 
             // Loop through selected items
             aSelectedItems.forEach(function (oItem) {
                 var oCtx = oItem.getBindingContext();
                 var oData = oCtx.getObject();
-                
-
                 if (oData.Exist === 'X') {
                     // Deselect invalid item
                     oList.setSelectedItem(oItem, false);
-
-                    // Optional: notify user
-                    sap.m.MessageToast.show("Role '" + oData.name + "' is already assigned.");
+                    sap.m.MessageToast.show("Role '" + (oData.name || oData.Roles) + "' is already assigned.");
                 } else {
                     aValidSelectedItems.push(oItem);
+                    aSelectedRoles.push(oData.Roles || oData.name);
                 }
             });
+
+            // Save selected roles to model for restoration after filtering
+            oModel.setProperty("/selectedRoles", aSelectedRoles);
 
             if (aSelectedItems.length > 0) {
                 // Get the last selected role for SOD and T-Codes display
                 var oLastSelected = aSelectedItems[aSelectedItems.length - 1];
                 var oRole = oLastSelected.getBindingContext().getObject();
-
                 oModel.setProperty("/selectedRoleSOD", oRole.sod);
                 // oModel.setProperty("/selectedRoleTcodes", oRole.roleTcodes);
             }
@@ -641,14 +648,49 @@ sap.ui.define([
             oModel.setProperty("/newTCodeValue", "");
         },
 
+        /**
+         * Validate T-codes against /all_tcodeSet OData service.
+         * @param {Array} aTcodes - Array of {code, description}
+         * @returns {Promise<Array>} - Array of valid {code, description} from backend
+         */
+        _validateTcodesWithOData: async function(aTcodes) {
+            const oODataModel = this.getOwnerComponent().getModel();
+            if (!aTcodes || aTcodes.length === 0) return [];
+            // Build filter string for all T-codes
+            const tcodeFilters = aTcodes.map(tc => `Tcode eq '${tc.code}'`).join(' or ');
+            return new Promise((resolve) => {
+                oODataModel.read("/all_tcodeSet", {
+                    urlParameters: { "$filter": tcodeFilters },
+                    success: function(data) {
+                        // data.results: [{ Tcode, TcodeDesc }]
+                        const validTcodes = data.results.map(item => ({
+                            code: item.Tcode,
+                            description: item.RoleDesc ? item.RoleDesc : 'No description available'
+                        }));
+                        resolve(validTcodes);
+                    },
+                    error: function() {
+                        resolve([]); // On error, return empty
+                    }
+                });
+            });
+        },
+
         //adding new t0de in 1st column
-        onAddTCodeSubmit: function (oEvent) {
+        onAddTCodeSubmit: async function (oEvent) {
             var oModel = this.getView().getModel();
             var sNewTCode = oModel.getProperty("/newTCodeValue");
             if (sNewTCode && sNewTCode.trim() !== "") {
-                var aTcodes = oModel.getProperty("/tcodes");
-                aTcodes.push({ code: sNewTCode.toUpperCase(), roles: [] });
-                oModel.setProperty("/tcodes", aTcodes);
+                var aTcodes = oModel.getProperty("/tcodes") || [];
+                // Validate with backend before adding
+                var validTcodes = await this._validateTcodesWithOData([{ code: sNewTCode.toUpperCase() }]);
+                if (validTcodes.length > 0) {
+                    // Only add if exists in backend
+                    aTcodes.push(validTcodes[0]);
+                    oModel.setProperty("/tcodes", aTcodes);
+                } else {
+                    sap.m.MessageToast.show("T-Code '" + sNewTCode + "' does not exist in the system.");
+                }
             }
             oModel.setProperty("/showAddTCodeInput", false);
             oModel.setProperty("/newTCodeValue", "");
@@ -679,19 +721,15 @@ sap.ui.define([
                 return;
             }
 
-
-            // oModel.setProperty("/roleBusy", true);
-            // oModel.setProperty("/sodBusy", true);
-
+            // Get T-codes from ChatGPT
             const gptResult = await this._callHuggingFaceForTcodes(sQuery);
-            console.log(gptResult);
-            oModel.setProperty("/tcodes", gptResult);
+            // Validate with backend before displaying
+            const validTcodes = await this._validateTcodesWithOData(gptResult);
+            oModel.setProperty("/tcodes", validTcodes);
 
             // Hide loading indicators
             oModel.setProperty("/tcodeBusy", false);
             oVBox.removeStyleClass("busyTop");
-            // oModel.setProperty("/roleBusy", false);
-            // oModel.setProperty("/sodBusy", false);
         },
 
         _callHuggingFaceForTcodes: async function (queryText) {
