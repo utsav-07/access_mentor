@@ -161,16 +161,21 @@
                                     id="roleList"
                                     items="{/availableRoles}"
                                     mode="MultiSelect"
+                                    updateFinished="onRoleListUpdateFinished"
                                     selectionChange="onRoleSelectionChange"
                                 >
                                     <StandardListItem
                                         title="{Roles}"
-                                        wrapping="true"
-                                        wrapCharLimit="50"
                                         type="Active"
                                         press="onRolePress"
+                                        highlight="{= ${Exist} === 'X' ? 'Success' : 'None' }"
                                         description="{RoleDesc}"
-                                        infoState="{= ${Exist} === 'X'? 'Success' : 'Warning'  }"
+                                        tooltip="{= ${Exist} === 'X' ? 'This role is already assigned' : '' }"
+                                        wrapping="true"
+                                        wrapCharLimit="50"
+                                        icon="{= ${Exist} === 'X' ? 'sap-icon://locked' : '' }"
+                                        info="{= ${Exist} === 'X' ? 'Assigned' : '' }"
+                                        infoState="{= ${Exist} === 'X' ? 'Success' : 'None' }"
                                     />
                                 </List>
                             </VBox>
