@@ -237,3 +237,7 @@ html, body, .sapUiBody {
 #sodTable .sapMLabel {
     white-space: nowrap !important;
 } */
+
+.hideRoleCheckbox .sapMCb {
+    display: none !important; /* hides checkbox */
+}

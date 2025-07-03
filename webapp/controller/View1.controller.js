@@ -453,7 +453,7 @@ sap.ui.define([
             const oModel = this.getView().getModel(); // Local JSON model
             const oODataModel = this.getOwnerComponent().getModel(); // OData service
             console.log(oODataModel);
-            const sUser = "VKK927855"; // Use fixed or dynamic user
+            const sUser = "UUU927917"; // Use fixed or dynamic user
 
             // Show loading indicator
             oModel.setProperty("/roleBusy", true);
@@ -535,29 +535,36 @@ sap.ui.define([
             var oList = oEvent.getSource();
             var aSelectedItems = oList.getSelectedItems();
             var oModel = this.getView().getModel();
+            var aValidSelectedItems = [];
+
+            // Loop through selected items
+            aSelectedItems.forEach(function (oItem) {
+                var oCtx = oItem.getBindingContext();
+                var oData = oCtx.getObject();
+                
+
+                if (oData.Exist === 'X') {
+                    // Deselect invalid item
+                    oList.setSelectedItem(oItem, false);
+
+                    // Optional: notify user
+                    sap.m.MessageToast.show("Role '" + oData.name + "' is already assigned.");
+                } else {
+                    aValidSelectedItems.push(oItem);
+                }
+            });
 
             if (aSelectedItems.length > 0) {
                 // Get the last selected role for SOD and T-Codes display
                 var oLastSelected = aSelectedItems[aSelectedItems.length - 1];
                 var oRole = oLastSelected.getBindingContext().getObject();
 
-                // oModel.setProperty("/selectedRoleSOD", oRole.sod);
+                oModel.setProperty("/selectedRoleSOD", oRole.sod);
                 // oModel.setProperty("/selectedRoleTcodes", oRole.roleTcodes);
             }
 
             oModel.setProperty("/selectedRolesCount", aSelectedItems.length);
-            // this._updateUIState();
-
-            var oList = this.byId("roleList");
-
-            // Get selected roles
-            var aSelectedItems = oList.getSelectedItems();
-            var aSelectedRoles = aSelectedItems.map(function (oItem) {
-                return oItem.getBindingContext().getObject().Roles;
-            });
-
-            // Replace the selectedRoles array entirely
-            oModel.setProperty("/selectedRoles", aSelectedRoles);
+            this._updateUIState();
         },
 
         //this function will help to get the t-code list in the that role and display it in infocenter
@@ -640,7 +647,7 @@ sap.ui.define([
             var sNewTCode = oModel.getProperty("/newTCodeValue");
             if (sNewTCode && sNewTCode.trim() !== "") {
                 var aTcodes = oModel.getProperty("/tcodes");
-                aTcodes.push({ code: sNewTCode, roles: [] });
+                aTcodes.push({ code: sNewTCode.toUpperCase(), roles: [] });
                 oModel.setProperty("/tcodes", aTcodes);
             }
             oModel.setProperty("/showAddTCodeInput", false);
@@ -775,6 +782,7 @@ sap.ui.define([
             var oModel = this.getView().getModel();
             var showStandard = oModel.getProperty("/showStandardRoles");
             var showNonStandard = oModel.getProperty("/showNonStandardRoles");
+            // Always filter from the full, original list
             var aAllRoles = oModel.getProperty("/_allAvailableRoles") || [];
             var aSelectedRoles = oModel.getProperty("/selectedRoles") || [];
 
@@ -802,6 +810,22 @@ sap.ui.define([
                     }
                 });
             }.bind(this), 0);
+        },
+        onRoleListUpdateFinished: function () {
+            var oList = this.byId("roleList");
+            var aItems = oList.getItems();
+
+            aItems.forEach(function (oItem) {
+                oItem.removeStyleClass("hideRoleCheckbox");
+                var oContext = oItem.getBindingContext();
+                if (!oContext) return;
+
+                var oData = oContext.getObject();
+                console.log(oData);
+                if (oData.Exist === 'X') {
+                    oItem.addStyleClass("hideRoleCheckbox");
+                }
+            });
         }
 
     });
