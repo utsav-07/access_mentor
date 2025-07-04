@@ -345,19 +345,6 @@ sap.ui.define([
                         orgRuleId: "ORG001"
                     },
                     {
-                        userId: "U123450",
-                        accessRiskId: "AR001",
-                        system: "SAPPRD",
-                        ruleId: "R1001",
-                        riskLevel: "High",
-                        action: "Approve",
-                        lastExecutedOn: "2024-06-01",
-                        executionCount: "5",
-                        control: "Yes",
-                        monitor: "No",
-                        orgRuleId: "ORG001"
-                    },
-                    {
                         userId: "U67890",
                         accessRiskId: "AR002",
                         system: "SAPDEV",
@@ -761,13 +748,44 @@ sap.ui.define([
                 const data = await response.json();
                 const content = data.choices?.[0]?.message?.content || "";
 
-                const match = content.match(/\[\s*{[^]*}\s*\]/);
-                if (match) {
-                    return JSON.parse(match[0]); // Return extracted JSON array
-                } else {
-                    console.warn("OpenAI response format unrecognized:", content);
-                    return [];
+                // Remove all code fences and everything before the first [
+                let contentClean = content.replace(/```[\s\S]*?```/g, match => match.replace(/```(?:json)?/gi, '').replace(/```/g, '')).trim();
+                let firstBracket = contentClean.indexOf('[');
+                if (firstBracket !== -1) {
+                    let jsonPart = contentClean.substring(firstBracket);
+                    // Try to find the last closing bracket for an object
+                    let lastCurly = jsonPart.lastIndexOf('}');
+                    if (lastCurly !== -1) {
+                        let possibleArray = jsonPart.substring(0, lastCurly + 1);
+                        // Try to ensure it ends with a closing array bracket
+                        if (!possibleArray.trim().endsWith(']')) {
+                            possibleArray += ']';
+                        }
+                        try {
+                            return JSON.parse(possibleArray);
+                        } catch (e) {
+                            // Try to remove the last (possibly incomplete) object and parse again
+                            let lastObj = possibleArray.lastIndexOf('},');
+                            if (lastObj !== -1) {
+                                let fixedArray = possibleArray.substring(0, lastObj + 1) + ']';
+                                try {
+                                    sap.m.MessageToast.show('The AI response was incomplete. Only partial data is shown.');
+                                    return JSON.parse(fixedArray);
+                                } catch (e2) {
+                                    sap.m.MessageToast.show('The AI response was incomplete. Only partial data is shown.');
+                                    console.warn('Failed to parse JSON after fix:', e2, fixedArray);
+                                    return [];
+                                }
+                            }
+                            sap.m.MessageToast.show('The AI response was incomplete or malformed. Please try again or rephrase your query.');
+                            console.warn('OpenAI response format unrecognized:', e, possibleArray);
+                            return [];
+                        }
+                    }
                 }
+                sap.m.MessageToast.show('The AI response was incomplete or malformed. Please try again or rephrase your query.');
+                console.warn('OpenAI response format unrecognized:', content);
+                return [];
 
             } catch (error) {
                 console.error("OpenAI API error:", error);
