@@ -332,19 +332,6 @@ sap.ui.define([
                         orgRuleId: "ORG001"
                     },
                     {
-                        userId: "U123450",
-                        accessRiskId: "AR001",
-                        system: "SAPPRD",
-                        ruleId: "R1001",
-                        riskLevel: "High",
-                        action: "Approve",
-                        lastExecutedOn: "2024-06-01",
-                        executionCount: "5",
-                        control: "Yes",
-                        monitor: "No",
-                        orgRuleId: "ORG001"
-                    },
-                    {
                         userId: "U67890",
                         accessRiskId: "AR002",
                         system: "SAPDEV",
@@ -440,7 +427,13 @@ sap.ui.define([
             const oModel = this.getView().getModel(); // Local JSON model
             const oODataModel = this.getOwnerComponent().getModel(); // OData service
             console.log(oODataModel);
-            const sUser = "UUU927917"; // Use fixed or dynamic user
+            var isOwnSelected = oModel.getProperty("/isOwnSelected");
+            var isOtherSelected = oModel.getProperty("/isOtherSelected");
+            var sUser = "";
+            if (isOtherSelected) {
+                sUser = oModel.getProperty("/otherSapId") || "";
+            }
+            // If Own is selected, sUser remains blank
 
             // Show loading indicator
             oModel.setProperty("/roleBusy", true);
@@ -640,7 +633,7 @@ sap.ui.define([
          * @param {Array} aTcodes - Array of {code, description}
          * @returns {Promise<Array>} - Array of valid {code, description} from backend
          */
-        _validateTcodesWithOData: async function(aTcodes) {
+        _validateTcodesWithOData: async function (aTcodes) {
             const oODataModel = this.getOwnerComponent().getModel();
             if (!aTcodes || aTcodes.length === 0) return [];
             // Build filter string for all T-codes
@@ -648,7 +641,7 @@ sap.ui.define([
             return new Promise((resolve) => {
                 oODataModel.read("/all_tcodeSet", {
                     urlParameters: { "$filter": tcodeFilters },
-                    success: function(data) {
+                    success: function (data) {
                         // data.results: [{ Tcode, TcodeDesc }]
                         const validTcodes = data.results.map(item => ({
                             code: item.Tcode,
@@ -656,7 +649,7 @@ sap.ui.define([
                         }));
                         resolve(validTcodes);
                     },
-                    error: function() {
+                    error: function () {
                         resolve([]); // On error, return empty
                     }
                 });
@@ -795,7 +788,57 @@ sap.ui.define([
 
         onSendSODPress: function () {
             var oModel = this.getView().getModel();
-            oModel.setProperty("/showSODTable", true);
+            var oSodModel = this.getOwnerComponent().getModel("sod");
+            console.log(oSodModel);
+            var selectedRoles = oModel.getProperty("/selectedRoles") || [];
+            var isOwnSelected = oModel.getProperty("/isOwnSelected");
+            var isOtherSelected = oModel.getProperty("/isOtherSelected");
+            var userId = "";
+            if (isOtherSelected) {
+                userId = oModel.getProperty("/otherSapId") || "";
+            }
+            // If Own is selected, userId remains blank
+
+            if (!selectedRoles.length) {
+                oModel.setProperty("/sodTableData", []);
+                oModel.setProperty("/showSODTable", false);
+                sap.m.MessageToast.show("Please select at least one role.");
+                return;
+            }
+
+            // Build filter array for UI5 ODataModel
+            var aRoleFilters = selectedRoles.map(function (role) {
+                return new sap.ui.model.Filter("Roles", sap.ui.model.FilterOperator.EQ, role);
+            });
+            var oRolesFilter = new sap.ui.model.Filter({
+                filters: aRoleFilters,
+                and: false // OR between roles
+            });
+            var oUserFilter = new sap.ui.model.Filter("User", sap.ui.model.FilterOperator.EQ, userId);
+            // Combine roles (OR) and user (AND)
+            var finalFilter = new sap.ui.model.Filter({
+                filters: [oRolesFilter, oUserFilter],
+                and: true
+            });
+
+            // Show busy indicator
+            oModel.setProperty("/sodBusy", true);
+
+            oSodModel.read("/ZGRC_SODSet", {
+                filters: [finalFilter],
+                success: function (data) {
+                    // Handle SOD results here
+                    console.log("SOD API result:", data);
+                    oModel.setProperty("/sodTableData", data.results || []);
+                    oModel.setProperty("/showSODTable", true);
+                    oModel.setProperty("/sodBusy", false);
+                },
+                error: function (err) {
+                    oModel.setProperty("/sodBusy", false);
+                    sap.m.MessageToast.show("Failed to check SOD.");
+                    console.error("SOD API error:", err);
+                }
+            });
         },
 
         onApplyPress: function () {
@@ -882,7 +925,31 @@ sap.ui.define([
                     oItem.addStyleClass("hideRoleCheckbox");
                 }
             });
-        }
+        },
 
+        onSodTableItemPress: function (oEvent) {
+            var oItem = oEvent.getSource();
+            var oCtx = oItem.getBindingContext();
+            if (oCtx) {
+                var oData = oCtx.getObject();
+                console.log('Riskdesc:', oData.Riskdesc, 'Riskid:', oData.Riskid);
+                // Set this data in selectedRoleTcodes for Info Center
+                var oModel = this.getView().getModel();
+                oModel.setProperty("/selectedRoleTcodes", [{
+                    code: oData.Riskid || '',
+                    description: oData.Riskdesc || ''
+                }]);
+            }
+        },
+
+        getRowHighlight: function (sRiskLevel) {
+            switch (sRiskLevel) {
+                case "Critical": return "Error";        // Red
+                case "High": return "Error";          // Orange
+                case "Medium": return "Indication08";    // Blue
+                case "Low": return "Indication05";           // Green
+                default: return "None";
+            }
+        }
     });
 });
