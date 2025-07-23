@@ -9,13 +9,13 @@
             <VBox class="centerPanel">
                 <VBox class="sapUiSmallMargin">
                     <!-- Query Input Section -->
- 
+
                     <VBox class="queryBox">
                         <Label
                             text="What would you like to do?"
                             class="queryTitle"
                         />
- 
+
                         <SearchField
                             id="queryInput"
                             width="100%"
@@ -24,7 +24,7 @@
                             value="{/query}"
                             search="onSearchSubmit"
                         />
- 
+
                         <HBox
                             alignItems="Center"
                             class="radioRow"
@@ -67,7 +67,7 @@
                             />
                         </HBox>
                     </VBox>
- 
+
                     <!-- Main Content - Four Column Layout -->
                     <HBox class="centerBox">
                         <!-- T-Code Card -->
@@ -90,8 +90,14 @@
                                     press="onAddTCodePress"
                                 />
                             </HBox>
-                            <VBox id="tcodeVBox" class="cardScrollableContent">
-                                <BusyIndicator  visible="{/tcodeBusy}" class="cardBusy"/>
+                            <VBox
+                                id="tcodeVBox"
+                                class="cardScrollableContent"
+                            >
+                                <BusyIndicator
+                                    visible="{/tcodeBusy}"
+                                    class="cardBusy"
+                                />
                                 <Input
                                     value="{/newTCodeValue}"
                                     visible="{/showAddTCodeInput}"
@@ -112,7 +118,7 @@
                                         title="{code}"
                                         description="{description}"
                                         wrapping="true"
-                                        wrapCharLimit="30"
+                                        wrapCharLimit="40"
                                         type="Active"
                                         press="onTCodePress"
                                     />
@@ -140,8 +146,14 @@
                                 />
                                 <!-- <Button icon="sap-icon://paper-plane" press="onSendSODPress"/> -->
                             </HBox>
-                            <VBox id="roleVBox" class="cardScrollableContent">
-                                <BusyIndicator  visible="{/roleBusy}" class="cardBusy"/>
+                            <VBox
+                                id="roleVBox"
+                                class="cardScrollableContent"
+                            >
+                                <BusyIndicator
+                                    visible="{/roleBusy}"
+                                    class="cardBusy"
+                                />
                                 <HBox class="roleRow">
                                     <CheckBox
                                         id="standardRoleCheckbox"
@@ -191,76 +203,70 @@
                                     class="headerfont"
                                 />
                             </HBox>
-                            <VBox
-                                class="cardScrollableContent"
-                                visible="{/showSODTable}"
-                            >
-                                <BusyIndicator visible="{/sodBusy}" class="cardBusy"/>
+                            <VBox class="cardScrollableContent">
+                                <BusyIndicator
+                                    visible="{/sodBusy}"
+                                    class="cardBusy"
+                                />
                                 <VBox class="sodTableWrapper">
                                     <Table
                                         id="sodTable"
                                         inset="false"
+                                        sticky="ColumnHeaders"
                                         fixedLayout="Strict"
                                         alternateRowColors="true"
                                         items="{
                                             path: '/sodTableData'
                                             }"
+                                        itemPress="onSodTableItemPress"
+                                        
                                     >
                                         <columns>
-                                            <Column>
-                                                <Text text="User ID" />
+                                            <Column width="6em">
+                                                <Text text="Risk ID" />
                                             </Column>
-                                            <Column>
-                                                <Text text="Access Risk ID" />
-                                            </Column>
-                                            <Column>
-                                                <Text text="System" />
-                                            </Column>
-                                            <Column>
+
+                                            <Column width="6em">
                                                 <Text text="Rule ID" />
                                             </Column>
-                                            <Column>
+                                            <Column width="6em">
                                                 <Text text="Risk Level" />
                                             </Column>
                                             <Column>
                                                 <Text text="Action" />
                                             </Column>
+
                                             <Column>
-                                                <Text text="Last Executed On" />
+                                                <Text text="Role" />
                                             </Column>
                                             <Column>
-                                                <Text text="Execution Count" />
-                                            </Column>
-                                            <Column>
-                                                <Text text="Control" />
-                                            </Column>
-                                            <Column>
-                                                <Text text="Monitor" />
-                                            </Column>
-                                            <Column>
-                                                <Text text="Org Rule ID" />
+                                                <Text text="Composite Role" />
                                             </Column>
                                         </columns>
                                         <items>
-                                            <ColumnListItem>
+                                            <ColumnListItem
+                                                type="Active"
+                                                press="onSodTableItemPress"
+                                                highlight="{path: 'Risklevel', formatter: '.getRowHighlight'}"
+                                                tooltip="Click to get risk information"
+                                            >
                                                 <cells>
-                                                    <Text text="{userId}" />
-                                                    <Text
-                                                        text="{accessRiskId}"
-                                                    />
-                                                    <Text text="{system}" />
-                                                    <Text text="{ruleId}" />
-                                                    <Text text="{riskLevel}" />
-                                                    <Text text="{action}" />
-                                                    <Text
-                                                        text="{lastExecutedOn}"
+                                                    <!-- <Text text="{Objectid}" /> -->
+                                                    <Text text="{Riskid}" />
+                                                    <!-- <Text text="{Connector}" /> -->
+                                                    <Text text="{Actruleid}" />
+                                                    <Text text="{Risklevel}" />
+                                                    <Text text="{Action}" />
+                                                    <!-- <Text
+                                                        text="{Resourceid}"
                                                     />
                                                     <Text
-                                                        text="{executionCount}"
+                                                        text="{Resourceextn}"
                                                     />
-                                                    <Text text="{control}" />
-                                                    <Text text="{monitor}" />
-                                                    <Text text="{orgRuleId}" />
+                                                    <Text text="{Fromval}" />
+                                                    <Text text="{Toval}" /> -->
+                                                    <Text text="{Role}" />
+                                                    <Text text="{Comprole}" />
                                                 </cells>
                                             </ColumnListItem>
                                         </items>
@@ -279,8 +285,14 @@
                                     class="headerfont"
                                 />
                             </HBox>
-                            <VBox id="infoCenterVBox" class="cardScrollableContent">
-                                <BusyIndicator visible="{/infoCenterBusy}" class="cardBusy"/>
+                            <VBox
+                                id="infoCenterVBox"
+                                class="cardScrollableContent"
+                            >
+                                <BusyIndicator
+                                    visible="{/infoCenterBusy}"
+                                    class="cardBusy"
+                                />
                                 <List
                                     id="roleTcodesList"
                                     items="{/selectedRoleTcodes}"
