@@ -118,7 +118,7 @@
                                         title="{code}"
                                         description="{description}"
                                         wrapping="true"
-                                        wrapCharLimit="30"
+                                        wrapCharLimit="40"
                                         type="Active"
                                         press="onTCodePress"
                                     />
