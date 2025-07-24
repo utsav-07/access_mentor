@@ -1,0 +1,314 @@
+<mvc:View
+    controllerName="com.ttl.accessmentor.controller.View1"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+>
+    <Page title="SAP Fiori T-Code Viewer">
+        <content>
+            <VBox class="centerPanel">
+                <VBox class="sapUiSmallMargin">
+                    <!-- Query Input Section -->
+
+                    <VBox class="queryBox">
+                        <Label
+                            text="What would you like to do?"
+                            class="queryTitle"
+                        />
+
+                        <SearchField
+                            id="queryInput"
+                            width="100%"
+                            class="qIn"
+                            placeholder="Enter query (e.g., GRN, PURCHASE, INVOICE)"
+                            value="{/query}"
+                            search="onSearchSubmit"
+                        />
+
+                        <HBox
+                            alignItems="Center"
+                            class="radioRow"
+                        >
+                            <RadioButton
+                                text="Own"
+                                selected="{/isOwnSelected}"
+                                select="onRadioSelect"
+                                groupName="userType"
+                            />
+                            <RadioButton
+                                text="Other"
+                                selected="{/isOtherSelected}"
+                                select="onRadioSelect"
+                                groupName="userType"
+                                class="sapUiSmallMarginBegin"
+                            />
+                            <Input
+                                value="{/otherSapId}"
+                                visible="{/isOtherSelected}"
+                                placeholder="Enter SAP ID"
+                                class="sapUiSmallMarginBegin"
+                                width="12rem"
+                            />
+                        </HBox>
+                    </VBox>
+                    <VBox class="statusBox">
+                        <HBox
+                            alignItems="Center"
+                            justifyContent="SpaceBetween"
+                        >
+                            <Text
+                                class="statusText"
+                                text='Query: "{/query}" | Selected T-Codes: {/selectedTCodesCount} | Selected Roles: {/selectedRolesCount}'
+                            />
+                            <Button
+                                text="Apply"
+                                type="Emphasized"
+                                press="onApplyPress"
+                            />
+                        </HBox>
+                    </VBox>
+
+                    <!-- Main Content - Four Column Layout -->
+                    <HBox class="centerBox">
+                        <!-- T-Code Card -->
+                        <VBox
+                            class="cardColumn"
+                            width="15%"
+                        >
+                            <HBox
+                                class="cardHeaderBg"
+                                justifyContent="SpaceBetween"
+                                alignItems="Center"
+                            >
+                                <Title
+                                    class="headerfont"
+                                    text="T-Code"
+                                />
+                                <Button
+                                    class="addIcon"
+                                    icon="sap-icon://add"
+                                    press="onAddTCodePress"
+                                />
+                            </HBox>
+                            <VBox
+                                id="tcodeVBox"
+                                class="cardScrollableContent"
+                            >
+                                <BusyIndicator
+                                    visible="{/tcodeBusy}"
+                                    class="cardBusy"
+                                />
+                                <Input
+                                    value="{/newTCodeValue}"
+                                    visible="{/showAddTCodeInput}"
+                                    placeholder="Enter new T-Code"
+                                    submit="onAddTCodeSubmit"
+                                    width="100%"
+                                    class="sapUiTinyMarginBottom"
+                                />
+                                <List
+                                    id="tcodeList"
+                                    items="{/tcodes}"
+                                    mode="MultiSelect"
+                                    selectionChange="onTCodeSelectionChange"
+                                    class="scrollableCardList"
+                                >
+                                    <StandardListItem
+                                        class="listItem"
+                                        title="{code}"
+                                        description="{description}"
+                                        wrapping="true"
+                                        wrapCharLimit="40"
+                                        type="Active"
+                                        press="onTCodePress"
+                                    />
+                                </List>
+                            </VBox>
+                        </VBox>
+                        <!-- Role Card -->
+                        <VBox
+                            class="cardColumn"
+                            width="20%"
+                        >
+                            <HBox
+                                class="cardHeaderBg"
+                                justifyContent="SpaceBetween"
+                                alignItems="Center"
+                            >
+                                <Title
+                                    text="Role"
+                                    class="headerfont"
+                                />
+                                <Button
+                                    text="Check SOD"
+                                    class="headerfont"
+                                    press="onSendSODPress"
+                                />
+                                <!-- <Button icon="sap-icon://paper-plane" press="onSendSODPress"/> -->
+                            </HBox>
+                            <VBox
+                                id="roleVBox"
+                                class="cardScrollableContent"
+                            >
+                                <BusyIndicator
+                                    visible="{/roleBusy}"
+                                    class="cardBusy"
+                                />
+                                <HBox class="roleRow">
+                                    <CheckBox
+                                        id="standardRoleCheckbox"
+                                        text="Standard"
+                                        selected="{/showStandardRoles}"
+                                        select="onRoleTypeCheckboxSelect"
+                                    />
+                                    <CheckBox
+                                        id="nonStandardRoleCheckbox"
+                                        text="Non-Standard"
+                                        selected="{/showNonStandardRoles}"
+                                        select="onRoleTypeCheckboxSelect"
+                                        class="sapUiSmallMarginBegin"
+                                    />
+                                </HBox>
+                                <List
+                                    id="roleList"
+                                    items="{/availableRoles}"
+                                    mode="MultiSelect"
+                                    updateFinished="onRoleListUpdateFinished"
+                                    selectionChange="onRoleSelectionChange"
+                                >
+                                    <StandardListItem
+                                        title="{Roles}"
+                                        type="Active"
+                                        press="onRolePress"
+                                        highlight="{= ${Exist} === 'X' ? 'Success' : 'None' }"
+                                        description="{RoleDesc}"
+                                        tooltip="{= ${Exist} === 'X' ? 'This role is already assigned' : '' }"
+                                        wrapping="true"
+                                        wrapCharLimit="50"
+                                        icon="{= ${Exist} === 'X' ? 'sap-icon://locked' : '' }"
+                                        info="{= ${Exist} === 'X' ? 'Assigned' : '' }"
+                                        infoState="{= ${Exist} === 'X' ? 'Success' : 'None' }"
+                                    />
+                                </List>
+                            </VBox>
+                        </VBox>
+                        <!-- SOD Card -->
+                        <VBox
+                            class="cardColumn"
+                            width="50%"
+                        >
+                            <HBox class="cardHeaderBg">
+                                <Title
+                                    text="SOD"
+                                    class="headerfont"
+                                />
+                            </HBox>
+                            <VBox class="cardScrollableContent">
+                                <BusyIndicator
+                                    visible="{/sodBusy}"
+                                    class="cardBusy"
+                                />
+                                <VBox class="sodTableWrapper">
+                                    <Table
+                                        id="sodTable"
+                                        inset="false"
+                                        sticky="ColumnHeaders"
+                                        fixedLayout="Strict"
+                                        alternateRowColors="true"
+                                        items="{
+                                            path: '/sodTableData'
+                                            }"
+                                        itemPress="onSodTableItemPress"
+                                        
+                                    >
+                                        <columns>
+                                            <Column width="6em">
+                                                <Text text="Risk ID" />
+                                            </Column>
+
+                                            <Column width="6em">
+                                                <Text text="Rule ID" />
+                                            </Column>
+                                            <Column width="6em">
+                                                <Text text="Risk Level" />
+                                            </Column>
+                                            <Column>
+                                                <Text text="Action" />
+                                            </Column>
+
+                                            <Column>
+                                                <Text text="Role" />
+                                            </Column>
+                                            <Column>
+                                                <Text text="Composite Role" />
+                                            </Column>
+                                        </columns>
+                                        <items>
+                                            <ColumnListItem
+                                                type="Active"
+                                                press="onSodTableItemPress"
+                                                highlight="{path: 'Risklevel', formatter: '.getRowHighlight'}"
+                                                tooltip="Click to get risk information"
+                                            >
+                                                <cells>
+                                                    <!-- <Text text="{Objectid}" /> -->
+                                                    <Text text="{Riskid}" />
+                                                    <!-- <Text text="{Connector}" /> -->
+                                                    <Text text="{Actruleid}" />
+                                                    <Text text="{Risklevel}" />
+                                                    <Text text="{Action}" />
+                                                    <!-- <Text
+                                                        text="{Resourceid}"
+                                                    />
+                                                    <Text
+                                                        text="{Resourceextn}"
+                                                    />
+                                                    <Text text="{Fromval}" />
+                                                    <Text text="{Toval}" /> -->
+                                                    <Text text="{Role}" />
+                                                    <Text text="{Comprole}" />
+                                                </cells>
+                                            </ColumnListItem>
+                                        </items>
+                                    </Table>
+                                </VBox>
+                            </VBox>
+                        </VBox>
+                        <!-- Role T-Codes Card -->
+                        <VBox
+                            class="cardColumn"
+                            width="15%"
+                        >
+                            <HBox class="cardHeaderBg">
+                                <Title
+                                    text="Info Center"
+                                    class="headerfont"
+                                />
+                            </HBox>
+                            <VBox
+                                id="infoCenterVBox"
+                                class="cardScrollableContent"
+                            >
+                                <BusyIndicator
+                                    visible="{/infoCenterBusy}"
+                                    class="cardBusy"
+                                />
+                                <List
+                                    id="roleTcodesList"
+                                    items="{/selectedRoleTcodes}"
+                                >
+                                    <StandardListItem
+                                        title="{code}"
+                                        description="{description}"
+                                        wrapping="true"
+                                        wrapCharLimit="100"
+                                    />
+                                </List>
+                            </VBox>
+                        </VBox>
+                    </HBox>
+                </VBox>
+            </VBox>
+        </content>
+    </Page>
+</mvc:View>
