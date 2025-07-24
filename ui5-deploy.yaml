@@ -1,0 +1,25 @@
+# yaml-language-server: $schema=https://sap.github.io/ui5-tooling/schema/ui5.yaml.json
+
+specVersion: "3.1"
+metadata:
+  name: com.ttl.accessmentor
+type: application
+builder:
+  resources:
+    excludes:
+      - /test/**
+      - /localService/**
+  customTasks:
+    - name: deploy-to-abap
+      afterTask: generateCachebusterInfo
+      configuration:
+        target:
+          url: http://172.28.236.11:9222
+          client: "900"
+        app:
+          name: ZACCESS_MENTOR
+          description: Check grc sod app
+          package: ZTTL_GRC_FIORI
+          transport: S4HK904266
+        exclude:
+          - /test/
