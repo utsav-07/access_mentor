@@ -1,0 +1,75 @@
+<mvc:View
+    controllerName="com.ttl.accessmentor.controller.CRView"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+>
+    <Page title="CR Screen"  showNavButton="true" navButtonPress="onNavBack">
+        <content>
+            <!-- Top Card for selection -->
+            <VBox class="crTopCard">
+                <HBox alignItems="Center" justifyContent="SpaceBetween">
+                    <RadioButtonGroup
+                        columns="2"
+                        selectedIndex="{/crTypeIndex}"
+                        select="onCrTypeSelect"
+                    >
+                        <buttons>
+                            <RadioButton text="Functional" />
+                            <RadioButton text="Technical" />
+                        </buttons>
+                    </RadioButtonGroup>
+                    <HBox alignItems="Center">
+                        <Button 
+                            icon="sap-icon://download" 
+                            press="onDownloadPress" 
+                            tooltip="Download as PDF"
+                            class="downloadButton" />
+                        <Button text="Apply" press="onCrApplyPress" />
+                    </HBox>
+                </HBox>
+            </VBox>
+            <!-- Scrollable Card for sections -->
+            <VBox class="crSectionsCard">
+                <ScrollContainer height="410px" vertical="true">
+                    <VBox id="crSectionsBox" items="{path: '/crSections'}">
+                        <items>
+                            <VBox class="crSection">
+                                <Title text="{title}" level="H3" />
+                                <Table
+                                    items="{users}"
+                                    class="crUserTable"
+                                    width="100%"
+                                >
+                                    <columns>
+                                        <Column><Text text="User ID" /></Column>
+                                        <Column><Text text="User Name" /></Column>
+                                        <Column><Text text="User type" /></Column>
+                                        <Column><Text text="User Validity" /></Column>
+                                        <Column><Text text="Lock Status" /></Column>
+                                        <Column><Text text="Valid" /></Column>
+                                        <Column><Text text="Invalid" /></Column>
+                                        <Column><Text text="Pending" /></Column>
+                                    </columns>
+                                    <items>
+                                        <ColumnListItem>
+                                            <cells>
+                                                <Text text="{userId}" />
+                                                <Text text="{userName}" />
+                                                <Text text="{userType}" />
+                                                <Text text="{userValidity}" />
+                                                <Text text="{lockStatus}" />
+                                                <CheckBox selected="{valid}" select="onCrStatusCheckBoxSelect"/>
+                                                <CheckBox selected="{invalid}" select="onCrStatusCheckBoxSelect"/>
+                                                <CheckBox selected="{pending}" select="onCrStatusCheckBoxSelect"/>
+                                            </cells>
+                                        </ColumnListItem>
+                                    </items>
+                                </Table>
+                            </VBox>
+                        </items>
+                    </VBox>
+                </ScrollContainer>
+            </VBox>
+        </content>
+    </Page>
+</mvc:View> 

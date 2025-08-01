@@ -113,6 +113,11 @@
           "target": [
             "TargetView1"
           ]
+        },
+        {
+          "pattern": "cr",
+          "name": "CRView",
+          "target": ["CRView"]
         }
       ],
       "targets": {
@@ -122,6 +127,11 @@
           "clearControlAggregation": false,
           "viewId": "View1",
           "viewName": "View1"
+        },
+        "CRView": {
+          "viewType": "XML",
+          "viewId": "CRView",
+          "viewName": "CRView"
         }
       }
     },
