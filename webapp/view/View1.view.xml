@@ -1,0 +1,725 @@
+<mvc:View
+    controllerName="com.ttl.accessmentor.controller.View1"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+>
+    <Page title="SAP Fiori T-Code Viewer">
+        <content>
+            <VBox class="centerPanel">
+                <VBox class="sapUiSmallMargin">
+                    <HBox
+                        class="customNavBar"
+                        justifyContent="Start"
+                        alignItems="Center"
+                    >
+                        <!-- <Button
+                            text="HOME"
+                            type="Transparent"
+                            press="onHomeNavPress"
+                            class="arrowButton"
+                        /> -->
+                        <!-- <Button
+                            text="Critical Transaction"
+                            type="Transparent"
+                            press="onCRNavPress"
+                            class="arrowButton"
+                        /> -->
+                    </HBox>
+                    <!-- Query Input Section -->
+
+                    <VBox class="queryBox">
+                        <Label
+                            text="What would you like to do?"
+                            class="queryTitle"
+                        />
+
+                        <SearchField
+                            id="queryInput"
+                            width="100%"
+                            class="qIn"
+                            placeholder="Enter query (e.g., GRN, PURCHASE, INVOICE)"
+                            value="{/query}"
+                            search="onSearchSubmit"
+                        />
+
+                        <HBox
+                            alignItems="Center"
+                            class="radioRow"
+                        >
+                            <RadioButton
+                                text="Self"
+                                selected="{/isOwnSelected}"
+                                select="onRadioSelect"
+                                groupName="userType"
+                            />
+                            <RadioButton
+                                text="Other"
+                                selected="{/isOtherSelected}"
+                                select="onRadioSelect"
+                                groupName="userType"
+                                class="sapUiSmallMarginBegin"
+                            />
+                            <Input
+                                value="{/otherSapId}"
+                                visible="{/isOtherSelected}"
+                                placeholder="Enter SAP ID"
+                                class="sapUiSmallMarginBegin"
+                                width="12rem"
+                            />
+                        </HBox>
+                    </VBox>
+                    <VBox class="statusBox">
+                        <HBox
+                            alignItems="Center"
+                            justifyContent="SpaceBetween"
+                        >
+                            <Text
+                                class="statusText"
+                                text='Selected T-Codes: {/selectedTCodesCount} | Selected Roles: {/selectedRolesCount}'
+                            />
+                            <Button
+                                text="Apply"
+                                type="Emphasized"
+                                press="onApplyPress"
+                                enabled="{= ${/selectedRolesCount} > 0}"
+                            />
+                        </HBox>
+                    </VBox>
+
+                    <!-- Main Content - Four Column Layout -->
+                    <HBox class="centerBox">
+                        <!-- T-Code Card -->
+                        <VBox
+                            class="cardColumn"
+                            width="15%"
+                        >
+                            <HBox
+                                class="cardHeaderBg"
+                                justifyContent="SpaceBetween"
+                                alignItems="Center"
+                            >
+                                <Title
+                                    class="headerfont"
+                                    text="T-Code"
+                                />
+                                <Button
+                                    class="addIcon"
+                                    icon="sap-icon://add"
+                                    press="onAddTCodePress"
+                                />
+                            </HBox>
+                            <VBox
+                                id="tcodeVBox"
+                                class="cardScrollableContent"
+                            >
+                                <BusyIndicator
+                                    visible="{/tcodeBusy}"
+                                    class="cardBusy"
+                                />
+                                <Input
+                                    value="{/newTCodeValue}"
+                                    visible="{/showAddTCodeInput}"
+                                    placeholder="Enter new T-Code"
+                                    submit="onAddTCodeSubmit"
+                                    width="100%"
+                                    class="sapUiTinyMarginBottom"
+                                />
+                                <List
+                                    id="tcodeList"
+                                    items="{/tcodes}"
+                                    mode="MultiSelect"
+                                    selectionChange="onTCodeSelectionChange"
+                                    class="scrollableCardList"
+                                >
+                                    <CustomListItem
+                                        class="listItem"
+                                        type="Active"
+                                        press="onTCodePress"
+                                        selected="{selected}"
+                                    >
+                                        <HBox
+                                            alignItems="Center"
+                                            justifyContent="SpaceBetween"
+                                            width="100%"
+                                        >
+                                            <VBox
+                                                class="sapUiTinyMarginEnd"
+                                                width="100%"
+                                            >
+                                                <Text
+                                                    text="{code}"
+                                                    class="tcodeTitle"
+                                                />
+                                                <Text
+                                                    text="{description}"
+                                                    class="tcodeDescription"
+                                                />
+                                            </VBox>
+                                            <Button
+                                                icon="sap-icon://decline"
+                                                type="Transparent"
+                                                press="onTCodeDeletePress"
+                                                tooltip="Delete T-Code"
+                                                class="deleteButton"
+                                            />
+                                        </HBox>
+                                    </CustomListItem>
+                                </List>
+                            </VBox>
+                        </VBox>
+                        <!-- Role Card -->
+                        <VBox
+                            class="cardColumn"
+                            width="20%"
+                        >
+                            <HBox
+                                class="cardHeaderBg"
+                                justifyContent="SpaceBetween"
+                                alignItems="Center"
+                            >
+                                <Title
+                                    text="Role"
+                                    class="headerfont"
+                                />
+                                <Button
+                                    text="Check SOD"
+                                    class="sodButton"
+                                    type="Emphasized"
+                                    press="onSendSODPress"
+                                    enabled="{= ${/selectedRolesCount} > 0}"
+                                />
+                                <!-- <Button icon="sap-icon://paper-plane" press="onSendSODPress"/> -->
+                            </HBox>
+                            <VBox
+                                id="roleVBox"
+                                class="cardScrollableContent"
+                            >
+                                <BusyIndicator
+                                    visible="{/roleBusy}"
+                                    class="cardBusy"
+                                />
+                                <HBox class="roleRow">
+                                    <CheckBox
+                                        id="standardRoleCheckbox"
+                                        text="Standard"
+                                        selected="{/showStandardRoles}"
+                                        select="onRoleTypeCheckboxSelect"
+                                    />
+                                    <CheckBox
+                                        id="nonStandardRoleCheckbox"
+                                        text="Non-Standard"
+                                        selected="{/showNonStandardRoles}"
+                                        select="onRoleTypeCheckboxSelect"
+                                        class="sapUiSmallMarginBegin"
+                                    />
+                                </HBox>
+                                <List
+                                    id="roleList"
+                                    items="{/availableRoles}"
+                                    mode="MultiSelect"
+                                    updateFinished="onRoleListUpdateFinished"
+                                    selectionChange="onRoleSelectionChange"
+                                >
+                                    <StandardListItem
+                                        title="{Roles}"
+                                        type="Active"
+                                        press="onRolePress"
+                                        highlight="{= ${Exist} === 'X' ? 'Success' : 'None' }"
+                                        description="{RoleDesc}"
+                                        tooltip="{= ${Exist} === 'X' ? 'This role is already assigned' : '' }"
+                                        wrapping="true"
+                                        wrapCharLimit="50"
+                                        icon="{= ${Exist} === 'X' ? 'sap-icon://locked' : '' }"
+                                        info="{= ${Exist} === 'X' ? 'Assigned' : '' }"
+                                        infoState="{= ${Exist} === 'X' ? 'Success' : 'None' }"
+                                    />
+                                </List>
+                            </VBox>
+                        </VBox>
+                        <!-- SOD Card -->
+                        <VBox
+                            class="cardColumn"
+                            width="50%"
+                        >
+                            <HBox
+                                class="cardHeaderBg"
+                                justifyContent="SpaceBetween"
+                                alignItems="Center"
+                            >
+                                <HBox alignItems="Center">
+                                    <Title
+                                        text="Segregation of Duties"
+                                        class="headerfont"
+                                    />
+                                    <CheckBox
+                                        id="mitigationCheckbox"
+                                        text="Include Mitigation Risk"
+                                        selected="true"
+                                        select="onMitigationFilterSelect"
+                                        class="sapUiTinyMarginEnd"
+                                    />
+                                </HBox>
+                                <HBox
+                                    alignItems="Center"
+                                    class="sapUiTinyMarginEnd"
+                                >
+                                    <ObjectStatus
+                                        text="High: {/sodHighCount}"
+                                        state="Error"
+                                        inverted="true"
+                                        visible="{= ${/sodHighCount} > 0}"
+                                        class="sapUiTinyMarginEnd sodStatus"
+                                    />
+                                    <ObjectStatus
+                                        text="Medium: {/sodMediumCount}"
+                                        state="Indication08"
+                                        inverted="true"
+                                        visible="{= ${/sodMediumCount} > 0}"
+                                        class="sapUiTinyMarginEnd sodStatus"
+                                    />
+                                    <ObjectStatus
+                                        text="Low: {/sodLowCount}"
+                                        state="Indication05"
+                                        inverted="true"
+                                        visible="{= ${/sodLowCount} > 0}"
+                                        class="sapUiTinyMarginEnd sodStatus"
+                                    />
+                                    <ObjectStatus
+                                        text="No Risks Found"
+                                        state="Success"
+                                        inverted="true"
+                                        visible="{= ${/sodTableData}.length === 0 &amp;&amp; !${/sodBusy}}"
+                                        icon="sap-icon://message-success"
+                                        class="sodStatus"
+                                    />
+                                    <Button
+                                        icon="sap-icon://header"
+                                        text="Risk Information"
+                                        type="Transparent"
+                                        press="onSodInfoPress"
+                                        tooltip="View Risk Details"
+                                        class="sapUiTinyMarginBegin"
+                                    />
+                                </HBox>
+                            </HBox>
+                            <VBox class="cardScrollableContent">
+                                <BusyIndicator
+                                    visible="{/sodBusy}"
+                                    class="cardBusy"
+                                />
+                                <VBox class="sodTableWrapper">
+                                    <Table
+                                        id="sodTable"
+                                        inset="false"
+                                        sticky="ColumnHeaders"
+                                        fixedLayout="Strict"
+                                        growing="true"
+                                        growingThreshold="100"
+                                        alternateRowColors="true"
+                                        items="{
+                                            path: '/sodTableData'
+                                            }"
+                                        itemPress="onSodTableItemPress"
+                                    >
+                                        <headerToolbar>
+                                            <Toolbar>
+                                                <ToolbarSpacer />
+                                                <Button
+                                                    icon="sap-icon://filter"
+                                                    text="Filter"
+                                                    press="onSodFilterPress"
+                                                    type="Transparent"
+                                                    class="sapUiTinyMarginEnd"
+                                                />
+                                                <Button
+                                                    icon="sap-icon://clear-filter"
+                                                    text="Clear Filter"
+                                                    press="onSodClearFilterInstant"
+                                                    type="Transparent"
+                                                />
+                                            </Toolbar>
+                                        </headerToolbar>
+                                        <columns>
+                                            <Column width="6em">
+                                                <Text text="Risk ID" />
+                                            </Column>
+
+                                            <Column width="6em">
+                                                <Text text="Rule ID" />
+                                            </Column>
+                                            <Column width="6em">
+                                                <Text text="Risk Level" />
+                                            </Column>
+                                            <Column>
+                                                <Text text="Action" />
+                                            </Column>
+
+                                            <Column>
+                                                <Text text="Role" />
+                                            </Column>
+                                            <Column>
+                                                <Text text="Composite Role" />
+                                            </Column>
+                                        </columns>
+                                        <items>
+                                            <ColumnListItem
+                                                type="Active"
+                                                press="onSodTableItemPress"
+                                                highlight="{path: 'Risklevel', formatter: '.getRowHighlight'}"
+                                                tooltip="Click to get risk information"
+                                            >
+                                                <cells>
+                                                    <!-- <Text text="{Objectid}" /> -->
+                                                    <Text text="{Riskid}" />
+                                                    <!-- <Text text="{Connector}" /> -->
+                                                    <Text text="{Actruleid}" />
+                                                    <Text text="{Risklevel}" />
+                                                    <Text text="{Action}" />
+                                                    <!-- <Text
+                                                        text="{Resourceid}"
+                                                    />
+                                                    <Text
+                                                        text="{Resourceextn}"
+                                                    />
+                                                    <Text text="{Fromval}" />
+                                                    <Text text="{Toval}" /> -->
+                                                    <Text text="{Role}" />
+                                                    <Text text="{Comprole}" />
+                                                </cells>
+                                            </ColumnListItem>
+                                        </items>
+                                    </Table>
+                                </VBox>
+                            </VBox>
+                        </VBox>
+
+                        <!-- SOD Filter Dialog -->
+                        <Dialog
+                            id="sodFilterDialog"
+                            title="Filter SOD Results"
+                            contentWidth="400px"
+                            contentHeight="500px"
+                        >
+                            <content>
+                                <VBox class="sapUiMediumMargin">
+                                    <Label
+                                        text="Risk Level"
+                                        class="sapUiTinyMarginBottom"
+                                    />
+                                    <Select
+                                        id="riskLevelFilter"
+                                        width="100%"
+                                        class="sapUiTinyMarginBottom"
+                                    >
+                                        <core:Item
+                                            key=""
+                                            text="All Risk Levels"
+                                        />
+                                        <core:Item
+                                            key="High"
+                                            text="High"
+                                        />
+                                        <core:Item
+                                            key="Medium"
+                                            text="Medium"
+                                        />
+                                        <core:Item
+                                            key="Low"
+                                            text="Low"
+                                        />
+                                    </Select>
+
+                                    <Label
+                                        text="Risk ID"
+                                        class="sapUiTinyMarginBottom"
+                                    />
+                                    <ComboBox
+                                        id="riskIdFilter"
+                                        placeholder="Select Risk ID"
+                                        width="100%"
+                                        class="sapUiTinyMarginBottom"
+                                        showSecondaryValues="true"
+                                        filterSecondaryValues="true"
+                                        items="{/sodRiskIds}"
+                                    >
+                                        <core:Item
+                                            key=""
+                                            text="All Risk IDs"
+                                        />
+                                        <core:Item
+                                            key="{RiskId}"
+                                            text="{RiskId}"
+                                        />
+                                    </ComboBox>
+
+                                    <Label
+                                        text="Rule ID"
+                                        class="sapUiTinyMarginBottom"
+                                    />
+                                    <ComboBox
+                                        id="ruleIdFilter"
+                                        placeholder="Select Rule ID"
+                                        width="100%"
+                                        class="sapUiTinyMarginBottom"
+                                        showSecondaryValues="true"
+                                        filterSecondaryValues="true"
+                                        items="{/sodRuleIds}"
+                                    >
+                                        <core:Item
+                                            key=""
+                                            text="All Rule IDs"
+                                        />
+                                        <core:Item
+                                            key="{RuleId}"
+                                            text="{RuleId}"
+                                        />
+                                    </ComboBox>
+
+                                    <Label
+                                        text="Action"
+                                        class="sapUiTinyMarginBottom"
+                                    />
+                                    <ComboBox
+                                        id="actionFilter"
+                                        placeholder="Select Action"
+                                        width="100%"
+                                        class="sapUiTinyMarginBottom"
+                                        showSecondaryValues="true"
+                                        filterSecondaryValues="true"
+                                        items="{/sodActions}"
+                                    >
+                                        <core:Item
+                                            key=""
+                                            text="All Actions"
+                                        />
+                                        <core:Item
+                                            key="{Action}"
+                                            text="{Action}"
+                                        />
+                                    </ComboBox>
+
+                                    <Label
+                                        text="Role"
+                                        class="sapUiTinyMarginBottom"
+                                    />
+                                    <ComboBox
+                                        id="roleFilter"
+                                        placeholder="Select Role"
+                                        width="100%"
+                                        class="sapUiTinyMarginBottom"
+                                        showSecondaryValues="true"
+                                        filterSecondaryValues="true"
+                                        items="{/sodRoles}"
+                                    >
+                                        <core:Item
+                                            key=""
+                                            text="All Roles"
+                                        />
+                                        <core:Item
+                                            key="{Role}"
+                                            text="{Role}"
+                                        />
+                                    </ComboBox>
+                                </VBox>
+                            </content>
+                            <buttons>
+                                <Button
+                                    text="Clear"
+                                    press="onSodFilterClear"
+                                    type="Transparent"
+                                />
+                                <Button
+                                    text="Apply"
+                                    press="onSodFilterApply"
+                                    type="Emphasized"
+                                />
+                                <Button
+                                    text="Cancel"
+                                    press="onSodFilterCancel"
+                                />
+                            </buttons>
+                        </Dialog>
+
+                        <!-- SOD Risk Details Dialog -->
+                        <Dialog
+                            id="sodRiskDetailsDialog"
+                            title="Risk Details"
+                            contentWidth="800px"
+                            contentHeight="600px"
+                            resizable="false"
+                            draggable="false"
+                        >
+                            <content>
+                                <ScrollContainer
+                                    height="500px"
+                                    vertical="true"
+                                    class="sapUiMediumMargin"
+                                >
+                                    <VBox items="{path: '/riskDetailsData'}">
+                                        <VBox class="sapUiTinyMarginBottom">
+                                            <HBox
+                                                class="riskLevelHeader"
+                                                alignItems="Center"
+                                            >
+                                                <Title
+                                                    text="{RiskLevel}"
+                                                    level="H3"
+                                                    class="sapUiTinyMarginEnd"
+                                                />
+                                                <ObjectStatus
+                                                    text="{RiskCount} risks"
+                                                    state="{= ${RiskLevel} === 'High' ? 'Error' : ${RiskLevel} === 'Medium' ? 'Indication08' : 'Indication05'}"
+                                                    inverted="true"
+                                                />
+                                            </HBox>
+                                            <Table
+                                                inset="false"
+                                                fixedLayout="Strict"
+                                                items="{
+                                                    path: 'Risks'
+                                                }"
+                                                class="sapUiTinyMarginTop riskDetailsTable"
+                                            >
+                                                <columns>
+                                                    <Column width="8em">
+                                                        <Text text="Risk ID" />
+                                                    </Column>
+                                                    <Column>
+                                                        <Text
+                                                            text="Risk Description"
+                                                        />
+                                                    </Column>
+                                                    <Column width="14em">
+                                                        <Text text="Monitor" />
+                                                    </Column>
+                                                    <Column width="14em">
+                                                        <Text
+                                                            text="Control ID"
+                                                        />
+                                                    </Column>
+                                                    <Column width="8em">
+                                                        <Text
+                                                            text="Mitigated"
+                                                        />
+                                                    </Column>
+                                                </columns>
+                                                <items>
+                                                    <ColumnListItem>
+                                                        <cells>
+                                                            <Text
+                                                                text="{Riskid}"
+                                                            />
+                                                            <Text
+                                                                text="{Riskdesc}"
+                                                            />
+                                                            <Text
+                                                                text="{Monitor}"
+                                                            />
+                                                            <Text
+                                                                text="{Accontrolid}"
+                                                            />
+                                                            <Text
+                                                                text="{= ${Monitor} &amp;&amp; ${Accontrolid} ? 'Yes' : 'No'}"
+                                                            />
+                                                        </cells>
+                                                    </ColumnListItem>
+                                                </items>
+                                            </Table>
+                                        </VBox>
+                                    </VBox>
+                                </ScrollContainer>
+                            </content>
+                            <buttons>
+                                <Button
+                                    text="Close"
+                                    press="onSodRiskDetailsClose"
+                                    type="Emphasized"
+                                />
+                            </buttons>
+                                                </Dialog>
+                        
+                        <!-- Selected Roles Dialog -->
+                        <Dialog
+                            id="selectedRolesDialog"
+                            title="Selected Roles"
+                            contentWidth="500px"
+                            contentHeight="400px"
+                            resizable="false"
+                            draggable="false"
+                        >
+                            <content>
+                                <VBox class="sapUiMediumMargin">
+                                    <List
+                                        id="selectedRolesList"
+                                        items="{
+                                            path: '/selectedRoles'
+                                        }"
+                                    >
+                                        <CustomListItem>
+                                            <HBox
+                                                alignItems="Center"
+                                                justifyContent="SpaceBetween"
+                                                width="100%"
+                                            >
+                                                <VBox class="sapUiTinyMarginEnd" width="100%">
+                                                    <Text
+                                                        text="{}"
+                                                        class="sapUiTinyMarginBottom"
+                                                    />
+                                                </VBox>
+                                                <Button
+                                                    icon="sap-icon://copy"
+                                                    type="Transparent"
+                                                    press="onCopyRolePress"
+                                                    tooltip="Copy to Clipboard"
+                                                    class="sapUiTinyMarginBegin"
+                                                />
+                                            </HBox>
+                                        </CustomListItem>
+                                    </List>
+                                </VBox>
+                            </content>
+                            <buttons>
+                                <Button text="Close" press="onSelectedRolesClose" type="Emphasized"/>
+                            </buttons>
+                        </Dialog>
+                        
+                        <!-- Role T-Codes Card -->
+                        <VBox
+                            class="cardColumn"
+                            width="15%"
+                        >
+                            <HBox class="cardHeaderBg">
+                                <Title
+                                    text="Info Center"
+                                    class="headerfont"
+                                />
+                            </HBox>
+                            <VBox
+                                id="infoCenterVBox"
+                                class="cardScrollableContent"
+                            >
+                                <BusyIndicator
+                                    visible="{/infoCenterBusy}"
+                                    class="cardBusy"
+                                />
+                                <List
+                                    id="roleTcodesList"
+                                    items="{/selectedRoleTcodes}"
+                                >
+                                    <StandardListItem
+                                        title="{code}"
+                                        description="{description}"
+                                        wrapping="true"
+                                        wrapCharLimit="100"
+                                    />
+                                </List>
+                            </VBox>
+                        </VBox>
+                    </HBox>
+                </VBox>
+            </VBox>
+        </content>
+    </Page>
+</mvc:View>

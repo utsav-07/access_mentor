@@ -1,0 +1,436 @@
+/* Enter your custom styles here */
+ 
+ 
+.columnCard {
+    background: #fff;
+    border: 1px solid #e5e7eb;
+ 
+ 
+ 
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+}
+ 
+.columnHeader {
+    font-weight: bold;
+   
+}
+ 
+.centerPanel {
+    max-width: auto;
+    margin-right: 20px;
+ 
+}
+ 
+.ResultsPanel{
+    margin-top: 20px;
+}
+ 
+.statusPanel{
+    margin-top: 20px;
+}
+ 
+.cardColumn {
+    background: #fff;
+    border: 2px solid #e5e7eb;
+    border-radius: 8px;
+    height: 400px;
+    margin-right: 2px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+    display: flex;
+    flex-direction: column;
+}
+.cardHeader {
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+.cardColumn .sapMListNoData {
+    background: transparent !important;
+}
+.centerBox{
+    margin-top: 5px;
+    /* margin-bottom: 40px; */
+}
+ 
+.cardHeaderBg {
+    background: #f5f7fa;
+    padding: 12px 16px;
+    min-height: 60px;
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+    color: #466491;
+    margin-bottom: 8px;
+    align-items: center;
+    border-bottom: 1px solid #d1d5db;
+    flex-shrink: 0;
+}
+.addIcon{
+    font-size: 10px;
+}
+.headerfont{
+    font-size: 14px !important;
+    font-family: Georgia, 'Times New Roman', Times, serif !important;
+}
+/* .centerBox > .cardColumn:first-child {
+    padding: 12px 16px;
+}*/
+/* .centerBox > .cardColumn:not(:first-child) {
+    padding-bottom: 30px;
+}  */
+ 
+.centerBox > .cardColumn:nth-child(even) {
+    background: #f8fafc;
+}
+.centerBox > .cardColumn:nth-child(odd) {
+    background: #fff;
+}
+ 
+ 
+/* .statusBox {
+    background-color: #f0f6ff;
+    border: 1px solid #cfe0fc;
+    border-radius: 10px;
+    padding: 12px 16px;
+} */
+ 
+/* .statusHeader {
+    font-weight: bold;
+    color: #154fa3;
+    margin-bottom: 6px;
+} */
+ 
+/* .statusIcon {
+    color: #1a73e8;
+} */
+ 
+.statusText {
+    font-size: 0.875rem;
+    color: #1a237e;
+}
+ 
+.queryBox {
+    background-color: white;
+    border: 2px solid #dce3ea;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    padding: 10px 5px 0px 5px;
+    height: 110px;
+}
+ 
+.queryTitle {
+    font-weight: bold;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 2rem;
+    color: #0f172a !important;
+    margin-bottom: 2px;
+    color: #374151;
+    /* align-items: center; */
+}
+ 
+.sapMSFF{
+    height: 40px !important;
+    align-items: baseline;
+}
+ 
+.sapMLabelInner {
+    justify-content: center !important;
+}
+ 
+.cardScrollableContent {
+    position: relative;
+    overflow-x: auto;
+    overflow-y: auto;
+    min-height: 0;
+    min-width: 0;
+    top:0;
+}
+ 
+.cardScrollableContent.busyTop {
+    top: 30%;
+}
+ 
+.cardBusy {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* position: absolute; */
+    /* left: 50%;
+    top: 50%; */
+    /* transform: translate(-50%, -50%);
+    z-index: 10; */
+}
+ 
+/*
+.scrollableCardList {
+    min-width: 100px;
+    overflow-x: auto !important;
+    overflow-y: auto !important;
+    display: block;
+} */
+ 
+ 
+.listItem{
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+ 
+/* === new changes: compact, zoomed-out look === */
+html, body, .sapUiBody {
+    font-size: 10px !important;
+}
+ 
+/* .cardColumn {
+    height: 300px;
+    padding: 8px;
+}
+ 
+.cardHeaderBg {
+    min-height: 32px;
+    padding: 0 8px;
+} */
+ 
+/* .scrollableCardList .sapMStdListItemTitle {
+    font-size: 0.9rem;
+}
+ 
+.scrollableCardList .sapMStdListItemDescription {
+    font-size: 0.75rem;
+}
+ 
+.sapMInputBaseInner, .sapMBtnInner, .sapMBtnIcon {
+    font-size: 0.9rem !important;
+    height: 2rem !important;
+} */
+ 
+#queryInput {
+    font-size: 100rem !important;
+}
+ 
+.qIn .sapMSFI {
+    font-size: 1.3rem !important;
+}
+ 
+.radioRow {
+   
+    margin-top: 23px;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+}
+
+.roleRow {
+    justify-content: center;
+    align-items: center;
+}
+ 
+.sodTableWrapper {
+    overflow-x: auto;
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+ 
+#sodTable {
+    width: 140000 !important;
+}
+ 
+#sodTable .sapMText,
+#sodTable .sapMLabel {
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.hideRoleCheckbox .sapMCb {
+    display: none !important; /* hides checkbox */
+}
+
+.customNavBar {
+    margin-bottom: 1rem;
+}
+
+.arrowButton {
+    border-radius: 20px 50px 50px 20px;
+    margin-right: 1rem;
+    background: #f5f5f5;
+    border: 2px solid #1976d2;
+    color: #1976d2;
+    font-weight: bold;
+    box-shadow: 1px 1px 4px #ccc;
+    padding-left: 2rem;
+    padding-right: 2rem;
+    transition: background 0.2s, color 0.2s;
+}
+.arrowButton:hover {
+    background: #1976d2;
+    color: #fff;
+}
+
+/* CR Screen Styles */
+.crMainBox {
+    padding: 20px;
+    background-color: #f5f5f5;
+    height: 100%;
+}
+
+.crTopBar {
+    margin-bottom: 20px;
+}
+
+.crSection {
+    margin-bottom: 20px;
+    padding: 15px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.crUserTable {
+    margin-top: 10px;
+}
+
+.crTopCard {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    margin-bottom: 20px;
+}
+
+.crSectionsCard {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.downloadButton {
+    margin-right: 10px;
+    background-color: #007bff;
+    border-color: #007bff;
+    color: white;
+}
+
+.downloadButton:hover {
+    background-color: #0056b3;
+    border-color: #0056b3;
+}
+
+.downloadButton:active {
+    background-color: #004085;
+    border-color: #004085;
+}
+
+/* T-Code List Item Styles */
+.tcodeTitle {
+    /* font-size: 14px;
+    font-weight: bold;
+    color: #333; */
+    margin-bottom: 4px;
+}
+
+.tcodeDescription {
+    /* font-size: 14px;
+    color: #666; */
+    line-height: 1.2;
+}
+
+.deleteButton {
+    color: #dc3545;
+    background-color: transparent;
+    border: none;
+    padding: 4px;
+    min-width: 32px;
+    height: 32px;
+}
+
+.deleteButton:hover {
+    background-color: #f8d7da;
+    border-radius: 4px;
+}
+
+.deleteButton:active {
+    background-color: #f5c6cb;
+}
+
+/* SOD Button and Status Styles */
+.sodButton .sapMBtnInner {
+    font-size: 13px;
+    font-weight: bold;
+}
+
+.sodStatus {
+    font-size: 14px;
+    font-weight: bold;
+    min-height: 32px;
+    border-radius: 6px;
+}
+
+.sodStatus .sapMObjStatusText {
+    font-size: 10px;
+    font-weight: bold;
+}
+
+.sodStatus .sapMObjStatusTitle {
+    font-size: 10px;
+    font-weight: bold;
+}
+
+/* Risk Level Header Styles */
+.riskLevelHeader {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    border-radius: 8px;
+    padding: 12px 16px;
+    margin-bottom: 8px;
+    border-left: 4px solid #007bff;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.riskLevelHeader .sapMTitle {
+    color: #495057;
+    font-weight: 600;
+    margin: 0;
+    font-size: medium;
+}
+
+
+.riskLevelHeader .sapMObjStatus {
+    margin-left: auto;
+}
+
+/* Risk Details Dialog Table Text Size */
+.riskDetailsTable .sapMText,
+.riskDetailsTable .sapMLabel,
+.riskDetailsTable .sapMColumnHeaderContent,
+.riskDetailsTable .sapMColumnHeaderText {
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.riskLevelHeader .sapMObjStatus .sapMObjStatusText,
+.riskLevelHeader .sapMObjStatus .sapMObjStatusTitle {
+    font-size: 12px;
+    font-weight: bold;
+}
+
+/* SOD Header Alignment Fix */
+.sapUiTinyMarginEnd .sapMObjStatus,
+.sapUiTinyMarginEnd .sapMBtn {
+    display: inline-flex;
+    align-items: center;
+    vertical-align: middle;
+}
+
+/* Mitigation Filter Checkbox Styles */
+.sapMCheckBox {
+    background-color: #f8f9fa;
+    border-radius: 6px;
+    padding: 8px 12px;
+    border: 1px solid #dee2e6;
+    margin-right: 16px;
+}
+
+.sapMCheckBox .sapMCbLabel {
+    font-weight: 500;
+    color: #495057;
+}
