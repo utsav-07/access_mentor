@@ -19,185 +19,6 @@ sap.ui.define([
                 tcodes: [],
 
                 extendedData: {
-                    "PURCHASE": {
-                        query: "PURCHASE",
-                        tcodes: [
-                            {
-                                code: "ME21N",
-
-                            },
-                            {
-                                code: "ME51N",
-                                roles: [
-                                    {
-                                        name: "Z1_BC_SAP_REQ_CRT",
-                                        sod: "",
-                                        roleTcodes: ["ME52N", "ME53N"]
-                                    }
-                                ]
-                            },
-                            {
-                                code: "ME23N",
-                                roles: [
-                                    {
-                                        name: "Z1_BC_SAP_PUR_DISP",
-                                        sod: "",
-                                        roleTcodes: ["ME21N"]
-                                    }
-                                ]
-                            },
-                            {
-                                code: "ME22N",
-                                roles: [
-                                    {
-                                        name: "Z1_BC_SAP_PUR_EDIT",
-                                        sod: "EDIT CONFLICT",
-                                        roleTcodes: ["ME21N", "ME23N"]
-                                    }
-                                ]
-                            },
-                            {
-                                code: "ME31K",
-                                roles: [
-                                    {
-                                        name: "Z1_BC_SAP_CONTRACT_CRT",
-                                        sod: "",
-                                        roleTcodes: ["ME32K", "ME33K"]
-                                    }
-                                ]
-                            },
-                            {
-                                code: "ME4100000000000000000000000000000000",
-                                roles: [
-                                    {
-                                        name: "Z1_BC_SAP_RFQ_CRT",
-                                        sod: "RFQ SOD",
-                                        roleTcodes: ["ME42", "ME43"]
-                                    }
-                                ]
-                            },
-                            {
-                                code: "ME51",
-                                roles: [
-                                    {
-                                        name: "Z1_BC_SAP_REQ_MANUAL",
-                                        sod: "",
-                                        roleTcodes: ["ME52", "ME53"]
-                                    }
-                                ]
-                            },
-                            {
-                                code: "ME11",
-                                roles: [
-                                    {
-                                        name: "Z1_BC_SAP_INFO_REC_CRT",
-                                        sod: "",
-                                        roleTcodes: ["ME12", "ME13"]
-                                    }
-                                ]
-                            },
-                            {
-                                code: "ME61",
-                                roles: [
-                                    {
-                                        name: "Z1_BC_SAP_VENDOR_EVAL",
-                                        sod: "EVALUATION CONFLICT",
-                                        roleTcodes: ["ME62"]
-                                    }
-                                ]
-                            },
-                            {
-                                code: "ME91E",
-                                roles: [
-                                    {
-                                        name: "Z1_BC_SAP_REMIND_PO",
-                                        sod: "",
-                                        roleTcodes: ["ME9E"]
-                                    }
-                                ]
-                            },
-                            {
-                                code: "ME91E",
-                                roles: [
-                                    {
-                                        name: "Z1_BC_SAP_REMIND_PO",
-                                        sod: "",
-                                        roleTcodes: ["ME9E"]
-                                    }
-                                ]
-                            },
-                            {
-                                code: "ME91E",
-                                roles: [
-                                    {
-                                        name: "Z1_BC_SAP_REMIND_PO",
-                                        sod: "",
-                                        roleTcodes: ["ME9E"]
-                                    }
-                                ]
-                            },
-                            {
-                                code: "ME91E",
-                                roles: [
-                                    {
-                                        name: "Z1_BC_SAP_REMIND_PO",
-                                        sod: "",
-                                        roleTcodes: ["ME9E"]
-                                    }
-                                ]
-                            },
-                            {
-                                code: "ME91E",
-                                roles: [
-                                    {
-                                        name: "Z1_BC_SAP_REMIND_PO",
-                                        sod: "",
-                                        roleTcodes: ["ME9E"]
-                                    }
-                                ]
-                            }
-                        ]
-                    },
-                    "INVOICE": {
-                        query: "INVOICE",
-                        tcodes: [
-                            {
-                                code: "MIRO",
-                                roles: [
-                                    {
-                                        name: "Z1_BC_SAP_INV_POST",
-                                        sod: "INVOICE SOD CONFLICT",
-                                        roleTcodes: ["MIR4", "MIR6"]
-                                    }
-                                ]
-                            }
-                        ]
-                    },
-                    "GRN": {
-                        query: "GRN",
-                        tcodes: [
-                            {
-                                code: "MM01",
-                                roles: [
-                                    {
-                                        name: "Z1_BC_SAP_GRN_DIS",
-                                        sod: "SOD ANALYSIS",
-                                        roleTcodes: ["PFCG"]
-                                    }
-                                ]
-                            },
-                            {
-                                code: "MM02",
-                                roles: [
-                                    {
-                                        name: "Z1_BC_SAP_GRN_CRT",
-                                        sod: "",
-                                        roleTcodes: ["SU53"]
-                                    }
-                                ]
-                            }
-                        ]
-                    }
                 },
                 // UI state properties
                 availableRoles: [],
@@ -213,145 +34,19 @@ sap.ui.define([
                 isOwnSelected: true,
                 isOtherSelected: false,
                 otherSapId: "",
-                sodTableData: [
-                    {
-                        userId: "U123450",
-                        accessRiskId: "AR001",
-                        system: "SAPPRD",
-                        ruleId: "R1001",
-                        riskLevel: "High",
-                        action: "Approve",
-                        lastExecutedOn: "2024-06-01",
-                        executionCount: "5",
-                        control: "Yes",
-                        monitor: "No",
-                        orgRuleId: "ORG001"
-                    },
-                    {
-                        userId: "U123450",
-                        accessRiskId: "AR001",
-                        system: "SAPPRD",
-                        ruleId: "R1001",
-                        riskLevel: "High",
-                        action: "Approve",
-                        lastExecutedOn: "2024-06-01",
-                        executionCount: "5",
-                        control: "Yes",
-                        monitor: "No",
-                        orgRuleId: "ORG001"
-                    },
-                    {
-                        userId: "U123450",
-                        accessRiskId: "AR001",
-                        system: "SAPPRD",
-                        ruleId: "R1001",
-                        riskLevel: "High",
-                        action: "Approve",
-                        lastExecutedOn: "2024-06-01",
-                        executionCount: "5",
-                        control: "Yes",
-                        monitor: "No",
-                        orgRuleId: "ORG001"
-                    },
-                    {
-                        userId: "U123450",
-                        accessRiskId: "AR001",
-                        system: "SAPPRD",
-                        ruleId: "R1001",
-                        riskLevel: "High",
-                        action: "Approve",
-                        lastExecutedOn: "2024-06-01",
-                        executionCount: "5",
-                        control: "Yes",
-                        monitor: "No",
-                        orgRuleId: "ORG001"
-                    },
-                    {
-                        userId: "U123450",
-                        accessRiskId: "AR001",
-                        system: "SAPPRD",
-                        ruleId: "R1001",
-                        riskLevel: "High",
-                        action: "Approve",
-                        lastExecutedOn: "2024-06-01",
-                        executionCount: "5",
-                        control: "Yes",
-                        monitor: "No",
-                        orgRuleId: "ORG001"
-                    },
-                    {
-                        userId: "U123450",
-                        accessRiskId: "AR001",
-                        system: "SAPPRD",
-                        ruleId: "R1001",
-                        riskLevel: "High",
-                        action: "Approve",
-                        lastExecutedOn: "2024-06-01",
-                        executionCount: "5",
-                        control: "Yes",
-                        monitor: "No",
-                        orgRuleId: "ORG001"
-                    },
-                    {
-                        userId: "U123450",
-                        accessRiskId: "AR001",
-                        system: "SAPPRD",
-                        ruleId: "R1001",
-                        riskLevel: "High",
-                        action: "Approve",
-                        lastExecutedOn: "2024-06-01",
-                        executionCount: "5",
-                        control: "Yes",
-                        monitor: "No",
-                        orgRuleId: "ORG001"
-                    },
-                    {
-                        userId: "U123450",
-                        accessRiskId: "AR001",
-                        system: "SAPPRD",
-                        ruleId: "R1001",
-                        riskLevel: "High",
-                        action: "Approve",
-                        lastExecutedOn: "2024-06-01",
-                        executionCount: "5",
-                        control: "Yes",
-                        monitor: "No",
-                        orgRuleId: "ORG001"
-                    },
-                    {
-                        userId: "U123450",
-                        accessRiskId: "AR001",
-                        system: "SAPPRD",
-                        ruleId: "R1001",
-                        riskLevel: "High",
-                        action: "Approve",
-                        lastExecutedOn: "2024-06-01",
-                        executionCount: "5",
-                        control: "Yes",
-                        monitor: "No",
-                        orgRuleId: "ORG001"
-                    },
-                    {
-                        userId: "U67890",
-                        accessRiskId: "AR002",
-                        system: "SAPDEV",
-                        ruleId: "R1002",
-                        riskLevel: "Medium",
-                        action: "Review",
-                        lastExecutedOn: "2024-05-28",
-                        executionCount: "2",
-                        control: "No",
-                        monitor: "Yes",
-                        orgRuleId: "ORG002"
-                    }
-                ],
+                sodTableData: [],
                 showSODTable: false,
                 tcodeBusy: false,
                 roleBusy: false,
                 infoCenterBusy: false,
                 sodBusy: false,
                 showStandardRoles: true,
-                showNonStandardRoles: true
+                showNonStandardRoles: true,
+                sodHighCount: 0,
+                sodMediumCount: 0,
+                sodLowCount: 0,
+                riskDetailsData: [],
+                includeMitigationRisk: true
             };
 
             var oModel = new JSONModel(mockData);
@@ -408,7 +103,7 @@ sap.ui.define([
         onRadioSelect: function (oEvent) {
             var oModel = this.getView().getModel();
             var sText = oEvent.getSource().getText();
-            if (sText === "Own") {
+            if (sText === "Self") {
                 oModel.setProperty("/isOwnSelected", true);
                 oModel.setProperty("/isOtherSelected", false);
             } else {
@@ -438,6 +133,15 @@ sap.ui.define([
             // Show loading indicator
             oModel.setProperty("/roleBusy", true);
             oVBox.addStyleClass("busyTop");
+
+            // Update selected property for all T-codes
+            const aAllTcodes = oModel.getProperty("/tcodes") || [];
+            const aSelectedTCodes = aSelectedItems.map(item => item.getBindingContext().getProperty("code"));
+
+            aAllTcodes.forEach(tcode => {
+                tcode.selected = aSelectedTCodes.includes(tcode.code);
+            });
+            oModel.setProperty("/tcodes", aAllTcodes);
 
             // Array to collect roles
             let aAvailableRoles = [];
@@ -477,6 +181,46 @@ sap.ui.define([
             oModel.setProperty("/_allAvailableRoles", aUniqueRoles);
             this.onRoleTypeCheckboxSelect();
             oModel.setProperty("/selectedTCodesCount", aSelectedItems.length);
+
+            // Clear role selections if no T-codes are selected
+            if (aSelectedItems.length === 0) {
+                const oRoleList = this.getView().byId("roleList");
+                oRoleList.removeSelections();
+                oModel.setProperty("/selectedRoles", []);
+                oModel.setProperty("/selectedRolesCount", 0);
+            } else {
+                // If some T-codes are still selected, we need to validate existing role selections
+                // against the new available roles to remove orphaned selections
+                const oRoleList = this.getView().byId("roleList");
+                const aCurrentSelectedRoles = oModel.getProperty("/selectedRoles") || [];
+                const aAvailableRoleNames = aUniqueRoles.map(role => role.Roles || role.name);
+
+                // Filter out roles that are no longer available
+                const aValidSelectedRoles = aCurrentSelectedRoles.filter(roleName =>
+                    aAvailableRoleNames.includes(roleName)
+                );
+
+                // Update the model with only valid role selections
+                oModel.setProperty("/selectedRoles", aValidSelectedRoles);
+                oModel.setProperty("/selectedRolesCount", aValidSelectedRoles.length);
+
+                // Clear visual selections and reapply only valid ones
+                oRoleList.removeSelections();
+
+                // Re-select only the valid roles
+                aValidSelectedRoles.forEach(roleName => {
+                    const aItems = oRoleList.getItems();
+                    for (let i = 0; i < aItems.length; i++) {
+                        const oItem = aItems[i];
+                        const oData = oItem.getBindingContext().getObject();
+                        if ((oData.Roles || oData.name) === roleName) {
+                            oRoleList.setSelectedItem(oItem, true);
+                            break;
+                        }
+                    }
+                });
+            }
+
             oModel.setProperty("/roleBusy", false);
             oVBox.removeStyleClass("busyTop");
 
@@ -516,6 +260,47 @@ sap.ui.define([
             });
         },
 
+        onTCodeDeletePress: function (oEvent) {
+            const oButton = oEvent.getSource();
+            const oListItem = oButton.getParent().getParent();
+            const oBindingContext = oListItem.getBindingContext();
+            const sTCode = oBindingContext.getProperty("code");
+            const oModel = this.getView().getModel();
+
+            // Get current T-codes array
+            const aTcodes = oModel.getProperty("/tcodes") || [];
+
+            // Remove the T-code from the array
+            const aUpdatedTcodes = aTcodes.filter(tcode => tcode.code !== sTCode);
+
+            // Update the model
+            oModel.setProperty("/tcodes", aUpdatedTcodes);
+            oModel.setProperty("/selectedTCodesCount", aUpdatedTcodes.length);
+
+            // Clear role list selections and reset role-related properties
+            const oRoleList = this.getView().byId("roleList");
+            oRoleList.removeSelections();
+            oModel.setProperty("/selectedRoles", []);
+            oModel.setProperty("/selectedRolesCount", 0);
+            oModel.setProperty("/availableRoles", []);
+            oModel.setProperty("/_allAvailableRoles", []);
+
+            // Clear SOD data when no roles are selected
+            oModel.setProperty("/sodTableData", []);
+            oModel.setProperty("/showSODTable", false);
+            oModel.setProperty("/sodHighCount", 0);
+            oModel.setProperty("/sodMediumCount", 0);
+            oModel.setProperty("/sodLowCount", 0);
+            oModel.setProperty("/_originalSodData", []);
+
+            // Simply call onTCodeSelectionChange to handle everything
+            const oList = this.getView().byId("tcodeList");
+            this.onTCodeSelectionChange({ getSource: () => oList });
+
+            // Show success message
+            sap.m.MessageToast.show(`T-Code ${sTCode} removed successfully`);
+        },
+
 
         //this function not required now as we will use button to check SOD
         onRoleSelectionChange: function (oEvent) {
@@ -551,6 +336,17 @@ sap.ui.define([
             }
 
             oModel.setProperty("/selectedRolesCount", aSelectedItems.length);
+
+            // Clear SOD data if no roles are selected
+            if (aSelectedItems.length === 0) {
+                oModel.setProperty("/sodTableData", []);
+                oModel.setProperty("/showSODTable", false);
+                oModel.setProperty("/sodHighCount", 0);
+                oModel.setProperty("/sodMediumCount", 0);
+                oModel.setProperty("/sodLowCount", 0);
+                oModel.setProperty("/_originalSodData", []); // Also clear original data
+            }
+
             this._updateUIState();
         },
 
@@ -645,7 +441,8 @@ sap.ui.define([
                         // data.results: [{ Tcode, TcodeDesc }]
                         const validTcodes = data.results.map(item => ({
                             code: item.Tcode,
-                            description: item.RoleDesc ? item.RoleDesc : 'No description available'
+                            description: item.RoleDesc ? item.RoleDesc : 'No description available',
+                            selected: false
                         }));
                         resolve(validTcodes);
                     },
@@ -665,7 +462,8 @@ sap.ui.define([
                 // Validate with backend before adding
                 var validTcodes = await this._validateTcodesWithOData([{ code: sNewTCode.toUpperCase() }]);
                 if (validTcodes.length > 0) {
-                    // Only add if exists in backend
+                    // Only add if exists in backend and set selected to false
+                    validTcodes[0].selected = false;
                     aTcodes.push(validTcodes[0]);
                     oModel.setProperty("/tcodes", aTcodes);
                 } else {
@@ -713,12 +511,16 @@ sap.ui.define([
         },
 
         _callHuggingFaceForTcodes: async function (queryText) {
-            const apiKey = "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"; // 🔐 Replace with your actual OpenAI API key
-            const prompt = `You are an SAP expert. List SAP T-Codes with their descriptions needed for the task: "${queryText}". Return the result as valid JSON array like:
-        [
-          { "code": "ME21N", "description": "Create Purchase Order" },
-          { "code": "ME23N", "description": "Display Purchase Order" }
-        ]`;
+            const apiKey = ""; // 🔐 Replace with your actual OpenAI API key
+            const prompt = `You are an SAP expert. List SAP T-codes and Fiori app IDs needed for: "${queryText}". 
+
+Use the SAP Fiori Apps Reference Library (https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/) to ensure accurate Fiori app IDs and descriptions.
+
+Return JSON:
+[
+  { "type": "T-CODE", "code": "ME21N", "description": "Create Purchase Order" },
+  { "type": "FIORI", "code": "F1873", "description": "Manage Sales Orders" }
+]`;
 
             try {
                 const response = await fetch("https://api.openai.com/v1/chat/completions", {
@@ -802,6 +604,9 @@ sap.ui.define([
             if (!selectedRoles.length) {
                 oModel.setProperty("/sodTableData", []);
                 oModel.setProperty("/showSODTable", false);
+                oModel.setProperty("/sodHighCount", 0);
+                oModel.setProperty("/sodMediumCount", 0);
+                oModel.setProperty("/sodLowCount", 0);
                 sap.m.MessageToast.show("Please select at least one role.");
                 return;
             }
@@ -824,14 +629,61 @@ sap.ui.define([
             // Show busy indicator
             oModel.setProperty("/sodBusy", true);
 
+            var that = this;
+
             oSodModel.read("/ZGRC_SODSet", {
                 filters: [finalFilter],
                 success: function (data) {
                     // Handle SOD results here
                     console.log("SOD API result:", data);
-                    oModel.setProperty("/sodTableData", data.results || []);
+                    var sodResults = data.results || [];
+                    oModel.setProperty("/sodTableData", sodResults);
                     oModel.setProperty("/showSODTable", true);
+
+                    console.log(sodResults)
+
+                    // Calculate unique risk level counts based on Risk ID + Rule ID + Risk Level combination
+                    var highCount = 0, mediumCount = 0, lowCount = 0;
+                    var uniqueHighRisks = new Set();
+                    var uniqueMediumRisks = new Set();
+                    var uniqueLowRisks = new Set();
+
+                    sodResults.forEach(function (item) {
+                        // Create unique key: Risk ID + Rule ID + Risk Level
+                        var uniqueKey = item.Riskid + "_" + item.Risklevel;
+
+                        switch (item.Risklevel) {
+                            case "High":
+                            case "Critical":
+                                uniqueHighRisks.add(uniqueKey);
+                                break;
+                            case "Medium":
+                                uniqueMediumRisks.add(uniqueKey);
+                                break;
+                            case "Low":
+                                uniqueLowRisks.add(uniqueKey);
+                                break;
+                        }
+                    });
+
+                    // Get counts from unique sets
+                    highCount = uniqueHighRisks.size;
+                    mediumCount = uniqueMediumRisks.size;
+                    lowCount = uniqueLowRisks.size;
+
+                    oModel.setProperty("/sodHighCount", highCount);
+                    oModel.setProperty("/sodMediumCount", mediumCount);
+                    oModel.setProperty("/sodLowCount", lowCount);
                     oModel.setProperty("/sodBusy", false);
+
+                    // Store original SOD data for filtering
+                    oModel.setProperty("/_originalSodData", sodResults);
+
+                    // Apply mitigation filter to the loaded data
+                    that._applyMitigationFilter();
+
+                    // Auto-open risk details dialog for first time
+                    that._autoOpenRiskDetailsDialog(sodResults);
                 },
                 error: function (err) {
                     oModel.setProperty("/sodBusy", false);
@@ -844,7 +696,9 @@ sap.ui.define([
         onApplyPress: function () {
             // Handle Apply button press
             console.log("Apply button pressed");
-            // Add your logic here
+            
+            // Open selected roles dialog
+            this._openSelectedRolesDialog();
         },
 
         /**
@@ -888,7 +742,7 @@ sap.ui.define([
             // Filter the roles based on Standard / Non-Standard
             var aFilteredRoles = aAllRoles.filter(function (role) {
                 var roleName = role.Roles || role.name || "";
-                var isStandard = roleName.toUpperCase().startsWith("SAP");
+                var isStandard = roleName.toUpperCase().startsWith("SAP") || roleName.startsWith("/");
                 return (showStandard && isStandard) || (showNonStandard && !isStandard);
             });
 
@@ -942,6 +796,423 @@ sap.ui.define([
             }
         },
 
+        onSodFilterPress: function (oEvent) {
+            var oDialog = this.getView().byId("sodFilterDialog");
+            if (oDialog) {
+                // Populate filter options from current SOD data
+                this._populateSodFilterOptions();
+                oDialog.open();
+            }
+        },
+
+        onSodFilterApply: function (oEvent) {
+            var oModel = this.getView().getModel();
+            var oDialog = this.getView().byId("sodFilterDialog");
+
+            // Get filter values safely
+            var riskLevelSelect = this.getView().byId("riskLevelFilter");
+            var riskLevel = riskLevelSelect ? riskLevelSelect.getSelectedKey() : "";
+            var riskIdCombo = this.getView().byId("riskIdFilter");
+            var riskId = riskIdCombo ? riskIdCombo.getSelectedKey() : "";
+            var ruleIdCombo = this.getView().byId("ruleIdFilter");
+            var ruleId = ruleIdCombo ? ruleIdCombo.getSelectedKey() : "";
+            var actionCombo = this.getView().byId("actionFilter");
+            var action = actionCombo ? actionCombo.getSelectedKey() : "";
+            var roleCombo = this.getView().byId("roleFilter");
+            var role = roleCombo ? roleCombo.getSelectedKey() : "";
+
+            // Get original SOD data
+            var originalData = oModel.getProperty("/_originalSodData") || oModel.getProperty("/sodTableData");
+
+            // Store original data if not already stored
+            if (!oModel.getProperty("/_originalSodData")) {
+                oModel.setProperty("/_originalSodData", originalData);
+            }
+
+            // Apply filters
+            var filteredData = originalData.filter(function (item) {
+                var matches = true;
+
+                if (riskLevel && item.Risklevel !== riskLevel) {
+                    matches = false;
+                }
+
+                if (riskId && !item.Riskid.toLowerCase().includes(riskId.toLowerCase())) {
+                    matches = false;
+                }
+
+                if (ruleId && !item.Actruleid.toLowerCase().includes(ruleId.toLowerCase())) {
+                    matches = false;
+                }
+
+                if (action && !item.Action.toLowerCase().includes(action.toLowerCase())) {
+                    matches = false;
+                }
+
+                if (role && !item.Role.toLowerCase().includes(role.toLowerCase())) {
+                    matches = false;
+                }
+
+                return matches;
+            });
+
+            // Update table data
+            oModel.setProperty("/sodTableData", filteredData);
+
+            // Recalculate counts for filtered data
+            this._recalculateSodCounts(filteredData);
+
+            // Close dialog
+            if (oDialog) {
+                oDialog.close();
+            }
+
+            sap.m.MessageToast.show("Filter applied successfully");
+        },
+
+        onSodFilterClear: function (oEvent) {
+            var oModel = this.getView().getModel();
+            
+            // Clear all filter inputs safely
+            var riskLevelSelect = this.getView().byId("riskLevelFilter");
+            var riskIdCombo = this.getView().byId("riskIdFilter");
+            var ruleIdCombo = this.getView().byId("ruleIdFilter");
+            var actionCombo = this.getView().byId("actionFilter");
+            var roleCombo = this.getView().byId("roleFilter");
+
+            if (riskLevelSelect) riskLevelSelect.setSelectedKey("");
+            if (riskIdCombo) riskIdCombo.setSelectedKey("");
+            if (ruleIdCombo) ruleIdCombo.setSelectedKey("");
+            if (actionCombo) actionCombo.setSelectedKey("");
+            if (roleCombo) roleCombo.setSelectedKey("");
+            
+            // Set mitigation checkbox to true by default when clearing filters
+            oModel.setProperty("/includeMitigationRisk", true);
+            
+            // Update the checkbox control directly
+            var mitigationCheckbox = this.getView().byId("mitigationCheckbox");
+            if (mitigationCheckbox) {
+                mitigationCheckbox.setSelected(true);
+            }
+            
+            // Apply the filter to show all data
+            this._applyMitigationFilter();
+        },
+
+        onSodFilterCancel: function (oEvent) {
+            var oDialog = this.getView().byId("sodFilterDialog");
+            if (oDialog) {
+                oDialog.close();
+            }
+        },
+
+        onSodClearFilterInstant: function (oEvent) {
+            var oModel = this.getView().getModel();
+
+            // Restore original SOD data
+            var originalData = oModel.getProperty("/_originalSodData");
+            if (originalData) {
+                oModel.setProperty("/sodTableData", originalData);
+                this._recalculateSodCounts(originalData);
+            }
+
+            // Clear filter dialog inputs if dialog is open
+            this.onSodFilterClear();
+
+            sap.m.MessageToast.show("All filters cleared");
+        },
+
+        onSodInfoPress: function (oEvent) {
+            var oModel = this.getView().getModel();
+            var sodData = oModel.getProperty("/sodTableData");
+
+            if (sodData && sodData.length > 0) {
+                // Group risks by Risk Level
+                var riskGroups = {};
+                var seenRiskIds = {};
+
+                sodData.forEach(function (item) {
+                    if (item.Riskid && item.Risklevel) {
+                        var riskLevel = item.Risklevel;
+
+                        // Initialize group if not exists
+                        if (!riskGroups[riskLevel]) {
+                            riskGroups[riskLevel] = {
+                                RiskLevel: riskLevel,
+                                Risks: [],
+                                RiskCount: 0
+                            };
+                        }
+
+                        // Add unique risk to group
+                        if (!seenRiskIds[item.Riskid]) {
+                            seenRiskIds[item.Riskid] = true;
+                            riskGroups[riskLevel].Risks.push({
+                                Riskid: item.Riskid,
+                                Riskdesc: item.Riskdesc || "No description available"
+                            });
+                            riskGroups[riskLevel].RiskCount++;
+                        }
+                    }
+                });
+
+                // Convert to array and sort by risk level (High, Medium, Low)
+                var riskLevelOrder = { 'High': 1, 'Medium': 2, 'Low': 3 };
+                var groupedRisks = Object.values(riskGroups).sort(function (a, b) {
+                    return (riskLevelOrder[a.RiskLevel] || 999) - (riskLevelOrder[b.RiskLevel] || 999);
+                });
+
+                // Set the grouped risk details data
+                oModel.setProperty("/riskDetailsData", groupedRisks);
+
+                // Open the dialog
+                var oDialog = this.getView().byId("sodRiskDetailsDialog");
+                if (oDialog) {
+                    oDialog.open();
+                }
+            } else {
+                sap.m.MessageToast.show("No SOD data available to display");
+            }
+        },
+
+        onSodRiskDetailsClose: function (oEvent) {
+            var oDialog = this.getView().byId("sodRiskDetailsDialog");
+            if (oDialog) {
+                oDialog.close();
+            }
+        },
+
+        onMitigationFilterSelect: function (oEvent) {
+            var oModel = this.getView().getModel();
+            var isChecked = oEvent.getParameter("selected");
+
+            // Store the filter preference
+            oModel.setProperty("/includeMitigationRisk", isChecked);
+
+            // Apply the filter to current SOD data
+            this._applyMitigationFilter();
+        },
+
+        _applyMitigationFilter: function () {
+            var oModel = this.getView().getModel();
+            var originalData = oModel.getProperty("/_originalSodData");
+            var includeMitigation = oModel.getProperty("/includeMitigationRisk");
+
+            if (!originalData || originalData.length === 0) {
+                return;
+            }
+
+            var filteredData;
+
+            if (includeMitigation) {
+                // Include all risks (show everything)
+                filteredData = originalData;
+            } else {
+                // Exclude risks that have both Accontrolid and Monitor values present
+                filteredData = originalData.filter(function (item) {
+                    var hasAccontrolid = item.Accontrolid && item.Accontrolid.trim() !== "";
+                    var hasMonitor = item.Monitor && item.Monitor.trim() !== "";
+
+                    // Exclude if both Accontrolid and Monitor have values
+                    return !(hasAccontrolid && hasMonitor);
+                });
+            }
+
+            // Update the table data
+            oModel.setProperty("/sodTableData", filteredData);
+
+            // Recalculate counts
+            this._recalculateSodCounts(filteredData);
+        },
+
+        _openSelectedRolesDialog: function() {
+            var oModel = this.getView().getModel();
+            var selectedRoles = oModel.getProperty("/selectedRoles") || [];
+            
+            if (selectedRoles.length > 0) {
+                // Set the selected roles data for the dialog
+                oModel.setProperty("/selectedRoles", selectedRoles);
+                console.log(selectedRoles);
+                
+                // Open the dialog
+                var oDialog = this.getView().byId("selectedRolesDialog");
+                if (oDialog) {
+                    oDialog.open();
+                }
+            } else {
+                sap.m.MessageToast.show("No roles selected");
+            }
+        },
+        
+        onCopyRolePress: function(oEvent) {
+            var oContext = oEvent.getSource().getBindingContext();
+            var roleName = oContext.getObject();
+            
+            if (roleName) {
+                // Copy to clipboard
+                navigator.clipboard.writeText(roleName).then(function() {
+                    sap.m.MessageToast.show("Role copied to clipboard: " + roleName);
+                }).catch(function(err) {
+                    console.error('Failed to copy: ', err);
+                    sap.m.MessageToast.show("Failed to copy role");
+                });
+            }
+        },
+        
+        onSelectedRolesClose: function(oEvent) {
+            var oDialog = this.getView().byId("selectedRolesDialog");
+            if (oDialog) {
+                oDialog.close();
+            }
+        },
+        
+        _autoOpenRiskDetailsDialog: function (sodData) {
+            var oModel = this.getView().getModel();
+
+            // Auto-open dialog every time SOD data is loaded
+            if (sodData && sodData.length > 0) {
+
+                // Use the same logic as onSodInfoPress to prepare data
+                var riskGroups = {};
+                var seenRiskIds = {};
+
+                sodData.forEach(function (item) {
+                    if (item.Riskid && item.Risklevel) {
+                        var riskLevel = item.Risklevel;
+
+                        // Initialize group if not exists
+                        if (!riskGroups[riskLevel]) {
+                            riskGroups[riskLevel] = {
+                                RiskLevel: riskLevel,
+                                Risks: [],
+                                RiskCount: 0
+                            };
+                        }
+
+                        // Add unique risk to group
+                        if (!seenRiskIds[item.Riskid]) {
+                            seenRiskIds[item.Riskid] = true;
+                            riskGroups[riskLevel].Risks.push({
+                                Riskid: item.Riskid,
+                                Riskdesc: item.Riskdesc || "No description available",
+                                Accontrolid: item.Accontrolid,
+                                Monitor: item.Monitor
+                            });
+                            riskGroups[riskLevel].RiskCount++;
+                        }
+                    }
+                });
+
+                // Convert to array and sort by risk level (High, Medium, Low)
+                var riskLevelOrder = { 'High': 1, 'Medium': 2, 'Low': 3 };
+                var groupedRisks = Object.values(riskGroups).sort(function (a, b) {
+                    return (riskLevelOrder[a.RiskLevel] || 999) - (riskLevelOrder[b.RiskLevel] || 999);
+                });
+
+                // Set the grouped risk details data
+                oModel.setProperty("/riskDetailsData", groupedRisks);
+
+                // Open the dialog
+                var oDialog = this.getView().byId("sodRiskDetailsDialog");
+                if (oDialog) {
+                    oDialog.open();
+                }
+            }
+        },
+
+        _recalculateSodCounts: function (sodData) {
+            var oModel = this.getView().getModel();
+
+            // Calculate unique risk level counts based on Risk ID + Rule ID + Risk Level combination
+            var highCount = 0, mediumCount = 0, lowCount = 0;
+            var uniqueHighRisks = new Set();
+            var uniqueMediumRisks = new Set();
+            var uniqueLowRisks = new Set();
+
+            sodData.forEach(function (item) {
+                // Create unique key: Risk ID + Rule ID + Risk Level
+                var uniqueKey = item.Riskid + "_" + item.Risklevel;
+
+                switch (item.Risklevel) {
+                    case "High":
+                    case "Critical":
+                        uniqueHighRisks.add(uniqueKey);
+                        break;
+                    case "Medium":
+                        uniqueMediumRisks.add(uniqueKey);
+                        break;
+                    case "Low":
+                        uniqueLowRisks.add(uniqueKey);
+                        break;
+                }
+            });
+
+            // Get counts from unique sets
+            highCount = uniqueHighRisks.size;
+            mediumCount = uniqueMediumRisks.size;
+            lowCount = uniqueLowRisks.size;
+
+            oModel.setProperty("/sodHighCount", highCount);
+            oModel.setProperty("/sodMediumCount", mediumCount);
+            oModel.setProperty("/sodLowCount", lowCount);
+        },
+
+        _populateSodFilterOptions: function () {
+            var oModel = this.getView().getModel();
+            var sodData = oModel.getProperty("/sodTableData") || [];
+
+            // Extract unique values and their counts
+            var riskIdMap = {};
+            var ruleIdMap = {};
+            var actionMap = {};
+            var roleMap = {};
+
+            sodData.forEach(function (item) {
+                // Count Risk IDs
+                if (item.Riskid) {
+                    riskIdMap[item.Riskid] = (riskIdMap[item.Riskid] || 0) + 1;
+                }
+
+                // Count Rule IDs
+                if (item.Actruleid) {
+                    ruleIdMap[item.Actruleid] = (ruleIdMap[item.Actruleid] || 0) + 1;
+                }
+
+                // Count Actions
+                if (item.Action) {
+                    actionMap[item.Action] = (actionMap[item.Action] || 0) + 1;
+                }
+
+                // Count Roles
+                if (item.Role) {
+                    roleMap[item.Role] = (roleMap[item.Role] || 0) + 1;
+                }
+            });
+
+            // Convert to arrays for binding
+            var riskIds = Object.keys(riskIdMap).map(function (key) {
+                return { RiskId: key, Count: riskIdMap[key] };
+            });
+
+            var ruleIds = Object.keys(ruleIdMap).map(function (key) {
+                return { RuleId: key, Count: ruleIdMap[key] };
+            });
+
+            var actions = Object.keys(actionMap).map(function (key) {
+                return { Action: key, Count: actionMap[key] };
+            });
+
+            var roles = Object.keys(roleMap).map(function (key) {
+                return { Role: key, Count: roleMap[key] };
+            });
+
+            // Set the data to model
+            oModel.setProperty("/sodRiskIds", riskIds);
+            oModel.setProperty("/sodRuleIds", ruleIds);
+            oModel.setProperty("/sodActions", actions);
+            oModel.setProperty("/sodRoles", roles);
+        },
+
         getRowHighlight: function (sRiskLevel) {
             switch (sRiskLevel) {
                 case "Critical": return "Error";        // Red
@@ -950,6 +1221,13 @@ sap.ui.define([
                 case "Low": return "Indication05";           // Green
                 default: return "None";
             }
+        },
+        onHomeNavPress: function () {
+            sap.m.MessageToast.show("Home clicked!");
+        },
+        onCRNavPress: function () {
+            var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
+            oRouter.navTo("CRView");
         }
     });
 });
